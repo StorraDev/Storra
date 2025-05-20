@@ -1,115 +1,145 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from 'next/font/google'
+import Head from 'next/head'
+import Image from 'next/image'
+import Link from 'next/link'
+import { IoLogoLinkedin } from 'react-icons/io'
+import {
+  RiFacebookBoxFill,
+  RiInstagramLine,
+  RiTwitterFill,
+} from 'react-icons/ri'
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+})
 
 export default function Home() {
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <>
+      <Head>
+        <title>
+          Storra - Learn, Earn, and Play | Gamified Learning Platform
+        </title>
+        <meta
+          name='description'
+          content="Join Storra, the world's first gamified learning and earning platform for students, youth, schools & parents. Transform education into an engaging lifestyle."
         />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              pages/index.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <meta
+          property='og:title'
+          content='Storra - Learn, Earn, and Play | Gamified Learning Platform'
+        />
+        <meta
+          property='og:description'
+          content="Join Storra, the world's first gamified learning and earning platform for students, youth, schools & parents. Transform education into an engaging lifestyle."
+        />
+        <meta property='og:type' content='website' />
+        <meta property='og:url' content='https://storra.com' />
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:title' content='Storra - Learn, Earn, and Play' />
+        <meta
+          name='twitter:description'
+          content="Join the world's first gamified learning and earning platform. Transform education into an engaging lifestyle."
+        />
+        <link rel='canonical' href='https://storra.com' />
+      </Head>
+      <main className='min-h-screen flex flex-col items-center justify-between gap-8 py-10 relative overflow-hidden '>
+        <div className='absolute inset-0 bg-black lg:bg-gradient-to-r lg:from-[#1a3699] lg:via-black lg:to-[#1a3699] z-0'>
+          <div className='absolute inset-0 opacity-30'>
+            {Array.from({ length: 50 }).map((_, i) => (
+              <div
+                key={i}
+                className='absolute rounded-full bg-white'
+                style={{
+                  width: Math.random() * 2 + 1 + 'px',
+                  height: Math.random() * 2 + 1 + 'px',
+                  top: Math.random() * 100 + '%',
+                  left: Math.random() * 100 + '%',
+                  opacity: Math.random() * 0.5 + 0.3,
+                }}
+              />
+            ))}
+          </div>
         </div>
+
+        <section className='w-full lg:w-[45%] px-4 py-16 flex flex-col items-center gap-8 text-center z-10'>
+          <button className='border-2 border-gray-400 flex justify-center items-center gap-2 text-white rounded-full py-2 px-5'>
+            <div className='h-3 w-3 rounded-full bg-blue-500' />
+            Get Early Exclusive Access
+          </button>
+
+          <h1
+            className={`${inter.className} text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight`}
+          >
+            Get Ready to Learn, Earn, and Play with Storra
+          </h1>
+
+          <p className='text-lg text-gray-300 max-w-xl'>
+            Be among the first to experience the world&apos;s first gamified
+            learning and earning platform for students, youth, schools &
+            parents.
+          </p>
+
+          <div className='w-full lg:w-2xl relative'>
+            {' '}
+            <input
+              type='email'
+              placeholder='Email address'
+              className='rounded-full bg-white text-gray-800 border-0 h-14 w-full px-5 pr-36 truncate'
+            />
+            <button className='bg-blue-600 hover:bg-blue-700 cursor-pointer text-white rounded-full h-12 px-6 whitespace-nowrap absolute right-1 top-1'>
+              Join Wait-list
+            </button>
+          </div>
+
+          <div className='flex items-center gap-2'>
+            <div className='flex -space-x-3'>
+              {[1, 2, 3, 4].map((i) => (
+                <div
+                  key={i}
+                  className='w-8 h-8 rounded-full border-2 border-blue-900 overflow-hidden bg-gray-200'
+                >
+                  <Image
+                    src={`/placeholder.svg?height=32&width=32`}
+                    alt={`User ${i}`}
+                    width={32}
+                    height={32}
+                    className='object-cover'
+                  />
+                </div>
+              ))}
+            </div>
+            <div className='flex items-center gap-2'>
+              <div className='w-8 h-8 rounded-full bg-blue-600 ring-2 ring-white flex items-center justify-center text-white text-xs'>
+                50+
+              </div>
+              <span className='text-gray-300 text-sm'>
+                People joined already
+              </span>
+            </div>
+          </div>
+        </section>
+        <div className='text-center text-white flex flex-col justify-center items-center gap-1 max-w-3xl mt-auto pt-8 z-10 px-5'>
+          <p className='text-lg italic'>
+            "Education meets innovation. Learning becomes a lifestyle."
+          </p>
+          <span className='text-gray-300'>- The Storra Team</span>
+        </div>
+        <hr className='border-b border-gray-400 z-10 w-4/5 xl:w-3/5 lg:w-3/5 md:w-4/5' />
+        <footer className='flex flex-col-reverse w-full lg:flex-row xl:w-3/5 lg:w-3/5 md:w-4/5 py-4 z-10 gap-5 px-5 justify-between items-center'>
+          {' '}
+          <div className='flex justify-start items-center gap-5 text-xl text-gray-300'>
+            <RiInstagramLine className='hover:text-[#E4405F] transition-colors cursor-pointer' />
+            <IoLogoLinkedin className='hover:text-[#0A66C2] transition-colors cursor-pointer' />
+            <RiFacebookBoxFill className='hover:text-[#1877F2] transition-colors cursor-pointer' />
+            <RiTwitterFill className='hover:text-[#1DA1F2] transition-colors cursor-pointer' />
+          </div>
+          <div className='flex items-center gap-5 text-sm'>
+            <Link href='#services'>Terms of Service</Link>
+            <Link href='#privacy'>Privacy Policy</Link>
+          </div>
+        </footer>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    </>
+  )
 }
