@@ -1,3 +1,7 @@
+import img1 from '@/public/img1.jpg'
+import img2 from '@/public/img2.jpg'
+import img3 from '@/public/img3.jpg'
+import img4 from '@/public/img4.jpg'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -13,6 +17,8 @@ const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
 })
+
+const peoplesImg = [img1, img2, img3, img4]
 
 export default function Home() {
   return (
@@ -94,27 +100,48 @@ export default function Home() {
 
           <div className='flex items-center gap-2'>
             <div className='flex -space-x-3'>
-              {[1, 2, 3, 4].map((i) => (
-                <div
-                  key={i}
-                  className='w-8 h-8 rounded-full border-2 border-blue-900 overflow-hidden bg-gray-200'
-                >
-                  <Image
-                    src={`/placeholder.svg?height=32&width=32`}
-                    alt={`User ${i}`}
-                    width={32}
-                    height={32}
-                    className='object-cover'
-                  />
-                </div>
-              ))}
-            </div>
-            <div className='flex items-center gap-2'>
-              <div className='w-8 h-8 rounded-full bg-blue-600 ring-2 ring-white flex items-center justify-center text-white text-xs'>
-                50+
+              <div className='flex -space-x-3'>
+                {peoplesImg.map((imgUrl, i) => (
+                  <div
+                    key={i}
+                    className='w-8 h-8 rounded-full border-2 border-blue-900 overflow-hidden ring-1 ring-white'
+                  >
+                    <Image
+                      src={imgUrl}
+                      alt={`User ${i + 1}`}
+                      width={32}
+                      height={32}
+                      className='object-cover object-top h-full'
+                    />
+                  </div>
+                ))}
               </div>
-              <span className='text-gray-300 text-sm'>
-                People joined already
+            </div>
+            <div className='relative flex items-center'>
+              <div className='relative pl-8'>
+                <div
+                  className='absolute inset-0 border border-gray-500/30'
+                  style={{
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                    borderTopRightRadius: '9999px',
+                    borderBottomRightRadius: '9999px',
+                    clipPath: 'polygon(16px 0, 100% 0, 100% 100%, 16px 100%)',
+                  }}
+                ></div>
+
+                <div className='flex items-center bg-navy-900 bg-opacity-80 pr-6 pl-12 rounded-r-full h-10'>
+                  <div className='text-white text-sm font-medium'>
+                    People joined already
+                  </div>
+                </div>
+              </div>
+
+              <span
+                className='absolute left-0 text-sm flex items-center justify-center bg-blue-600 text-white rounded-full 
+              h-10 w-10 z-10 ring-2 ring-white'
+              >
+                200+
               </span>
             </div>
           </div>
