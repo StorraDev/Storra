@@ -69,13 +69,20 @@ export default function Home() {
         </div>
 
         <section className='w-full lg:w-[45%] px-4 py-16 flex flex-col items-center gap-8 text-center z-10'>
-          <button className='border-2 border-gray-400 flex justify-center items-center gap-2 text-white rounded-full py-2 px-5'>
+          <Image
+            src='/logo.svg'
+            alt='Storra Logo'
+            width={150}
+            height={150}
+            className='w-32 h-32'
+          />
+          <p className='border-2 border-gray-400 flex justify-center items-center gap-2 text-white rounded-full py-2 px-5'>
             <div className='h-3 w-3 rounded-full bg-blue-500' />
             Get Early Exclusive Access
-          </button>
+          </p>
 
           <h1
-            className={`${inter.className} text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight`}
+            className={`${inter.className} text-4xl md:text-5xl lg:text-6xl text-white leading-tight`}
           >
             Get Ready to Learn, Earn, and Play with Storra
           </h1>
