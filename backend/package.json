@@ -29,6 +29,7 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
+    "express": "^5.1.0",
     "express-session": "^1.18.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
@@ -44,6 +45,7 @@
     "twilio": "^5.6.1"
   },
   "devDependencies": {
+    "@types/express": "^5.0.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.23",
     "@types/supertest": "^6.0.3",
