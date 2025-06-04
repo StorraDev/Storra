@@ -1,31 +1,51 @@
-import logger from "../../src/utils/logger.js";
-import mongoose from "mongoose";
-import { ApiError } from "../../src/utils/ApiError.js";
-import { Request, Response, NextFunction } from "express";
+import dotenv from 'dotenv';
+import { ErrorRequestHandler } from 'express';
+import { ApiError } from '../utils/ApiError.js';
+import { logger } from '../utils/logger.js';
 
-const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+dotenv.config();
+
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  console.log('🔥 Error Handler Triggered:', err.message);
+  
   let error = err;
 
+  // Convert non-ApiError instances to ApiError
   if (!(error instanceof ApiError)) {
-    const statusCode = error.statusCode || (error instanceof mongoose.Error ? 400 : 500);
-    const message = error.message || "Something went wrong";
-    error = new ApiError({ statusCode, message });
+    const statusCode = error.statusCode || error.status || (error.name === 'ValidationError' ? 400 : 500);
+    
+    error = new ApiError({
+      statusCode,
+      message: error.message || 'Something went wrong',
+      ...(error.errors && { errors: error.errors }),
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 
-  // Log error with Winston
-  logger.error("API Error", {
-    message: error.message,
-    stack: error.stack,
-    statusCode: error.statusCode,
-    route: req.originalUrl,
+  // Log the error
+  logger.error(`[${error.statusCode}] ${error.message}`, {
+    path: req.path,
     method: req.method,
+    ip: req.ip,
+    userAgent: req.get('User-Agent'),
+    stack: error.stack,
+    timestamp: new Date().toISOString()
   });
 
-  // Send API response
-  return res.status(error.statusCode).json({
+  // Send error response
+  const response = {
+    success: false,
     message: error.message,
-    ...(process.env.NODE_ENV === "development" ? { stack: error.stack } : {}),
-  });
+    statusCode: error.statusCode,
+    ...(error.errors?.length && { errors: error.errors }),
+    ...(process.env.NODE_ENV === 'development' && { 
+      stack: error.stack,
+      path: req.path,
+      method: req.method 
+    })
+  };
+
+  res.status(error.statusCode).json(response);
 };
 
 export { errorHandler };
