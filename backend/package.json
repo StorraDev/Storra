@@ -2,12 +2,12 @@
   "name": "storra-backend",
   "version": "1.0.0",
   "main": "index.ts",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.ts",
-    "dev": "nodemon --watch ./ --exec \"node --no-warnings --loader ts-node/esm\" ./index.ts",
-    "build": "tsc"
+    "start": "node dist/index.js",
+    "dev": "nodemon --exec tsx index.ts",
+    "build": "tsc --outDir dist",
+    "vercel-build": "npm install --legacy-peer-deps && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -50,6 +50,8 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@tsconfig/node18": "^18.2.4",
+    "@tsconfig/node22": "^22.0.2",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.2",
     "@types/jest": "^29.5.14",
@@ -62,6 +64,7 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }
 }
