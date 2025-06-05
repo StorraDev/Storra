@@ -77,7 +77,7 @@ export default function Home() {
             className='w-32 h-32'
           />
           <p className='border-2 border-gray-400 flex justify-center items-center gap-2 text-white rounded-full py-2 px-5'>
-            <div className='h-3 w-3 rounded-full bg-blue-500' />
+            <span className='h-3 w-3 rounded-full bg-blue-500'></span>
             Get Early Exclusive Access
           </p>
 
