@@ -13,6 +13,7 @@ interface ICountryDocument extends ICountryRegistration {
     countryCode: string;
     registrationNumber: string;
     createdAt: Date;
+    updatedAt: Date;
 }
 
 export type { ICountry, ICountryRegistration, ICountryDocument };
