@@ -3,21 +3,28 @@ import { useState } from 'react'
 
 export default function AuthLayout({
   children,
+  userType
+  
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
+   userType: 'student' | 'parent' | 'teacher' | null;
 }) {
-  const [userType] = useState<'student' | 'parent' | 'teacher'>('student')
+  const [user] = useState<'student' | 'parent' | 'teacher'>('student')
 
   const lastStepMap = {
     student: 'Start learning and earning',
     parent: "Support and track ward's progress",
     teacher: 'Setup your classroom',
   }
-
+  const imageMap = {
+    student: '/images/student.svg',
+    parent: '/images/parent.svg',
+    teacher: '/images/teacher.svg',
+  };
   const steps = [
     { number: 1, text: 'Create an account type' },
     { number: 2, text: 'Provide your details' },
-    { number: 3, text: lastStepMap[userType] || 'Get started' },
+    { number: 3, text: lastStepMap[user] || 'Get started' },
   ]
 
   return (
@@ -26,15 +33,36 @@ export default function AuthLayout({
         {children}
       </section>
 
-      <section className='hidden md:flex md:flex-row-reverse md:gap-5 lg:flex-col items-center justify-center bg-blue text-white p-8 rounded-4xl my-auto lg:w-[95%] lg:h-[95vh] md:w-[90%] md:h-[100%] md:mx-auto md:mt-5'>
+      <section className='hidden md:flex md:flex-row-reverse md:gap-5 lg:flex-col items-center justify-center bg-blue text-white p-8 rounded-4xl my-auto lg:w-[95%] lg:h-[100vh] md:w-[90%] md:h-[100%] md:mx-auto md:mt-5'>
         <div className='relative lg:w-11/12 lg:h-9/12 md:w-full md:h-[320px] md:m-auto bg-dot-grid rounded-xl flex items-center justify-center mb-6'>
-          <Image
-            src='/images/student-illustration.png'
+              {userType === 'parent' && (
+                    <Image
+            src='/images/parent.svg'
+            alt='parent Illustration'
+               width={320}
+                    height={320}
+            className='w-52 h-auto relative z-10 md:w-[350px] md:h-[350px] '
+          />
+                    )}
+          
+      {userType === 'teacher' && (
+                    <Image
+            src='/images/teacher.svg'
+            alt='teacher Illustration'
+            width={320}
+            height={320}
+                      className='w-52 h-auto relative z-10 md:w-[350px] md:h-[350px] '
+          />
+                    )}
+                        {userType === 'student' && (
+                    <Image
+            src='/images/student.svg'
             alt='Student Illustration'
             width={320}
             height={320}
-            className='w-52 h-auto relative z-10'
+                     className='w-52 h-auto relative z-10 md:w-[350px] md:h-[350px] '
           />
+                    )}
         </div>
 
         <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4 w-full'>

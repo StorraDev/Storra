@@ -1,9 +1,9 @@
 import AccountType from "./accountype";
 import Image from 'next/image'
-
+type AccountType = 'student' | 'parent' | 'teacher';
 interface AccountPros {
-    selected : string | null
-     setSelected: (value: string | null) => void;
+    selected : AccountType | null
+     setSelected: (value: AccountType | null) => void;
     onCreateAccount: () => void; 
 }
 

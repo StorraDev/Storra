@@ -9,14 +9,17 @@ import OnboardScreen from './onboard';
 import Head from 'next/head';
 type AccountType = 'student' | 'parent' | 'teacher';
 export default function Register() {
-const [selected, setSelected] = useState<string | null>(null);
-const [userType, setUserType] = useState<string | null>(null);
+const [selected, setSelected] = useState<AccountType | null>(null);
+const [userType, setUserType] = useState<AccountType | null>(null);
 
  const handleCreateAccount = () => {
+  console.log('Selected Account Typse:', selected);
     if (selected) {
     setUserType(selected)
     }
   };
+console.log('User  Type:', userType);
+console.log('  Type:', selected);
   return (
     <>
    <Head>
@@ -60,7 +63,7 @@ const [userType, setUserType] = useState<string | null>(null);
     )}
 
 {userType && (
-      <AuthLayout>
+      <AuthLayout userType={userType}  >
         {' '}
         <main className='flex flex-col gap-5 h-full w-full items-center justify-center'>
           <Button

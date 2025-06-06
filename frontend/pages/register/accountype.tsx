@@ -7,13 +7,14 @@ interface Account {
   title: string;
   description: string;
 }
+
 interface AccountPros {
-    selected : string | null
-     setSelected: (value: string | null) => void;
+    selected : AccountType | null
+     setSelected: (value: AccountType | null) => void;
     onCreateAccount: () => void; 
 }
 
-export default function Account({selected, setSelected,onCreateAccount}: AccountPros){
+export default function AccountType({selected, setSelected,onCreateAccount}: AccountPros){
       const accounts: Account[] = [
     {
       key: 'student',
