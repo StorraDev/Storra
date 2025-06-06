@@ -1,6 +1,7 @@
 {   "extends": "@tsconfig/node18/tsconfig.json",
     "compilerOptions": {
       "outDir": "dist",
+      "resolveJsonModule": true,
       "noEmitOnError": false,
       "checkJs": false,
       "rootDir": "src",

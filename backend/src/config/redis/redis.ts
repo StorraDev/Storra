@@ -23,3 +23,10 @@ const connectRedis = async () => {
 const CACHE_TTL = 3600; // 1 hour
 
 export { client, connectRedis, CACHE_TTL };
+
+// docker run -d \
+//   --name redis-dev \
+//   -p 6379:6379 \
+//docker start redis-dev
+//   redis
+

@@ -9,6 +9,10 @@ interface ICountryRegistration {
     password: string;
 }
 
+interface ICountryJson {
+    name: string;
+    alpha3: string;
+}
 interface ICountryDocument extends ICountryRegistration {
     countryCode: string;
     registrationNumber: string;
@@ -16,4 +20,4 @@ interface ICountryDocument extends ICountryRegistration {
     updatedAt: Date;
 }
 
-export type { ICountry, ICountryRegistration, ICountryDocument };
+export type { ICountry, ICountryRegistration, ICountryJson, ICountryDocument };
