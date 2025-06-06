@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 import { app } from "./app.js";
 import connectDB from "./src/config/db/db.js";
-
+import { connectRedis} from './src/config/redis/redis';
+import { logger } from "./src/utils/logger.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 const __filename = fileURLToPath(import.meta.url);
@@ -13,14 +14,17 @@ const PORT = process.env.PORT || 7001;
 
 
 connectDB()
-    .then(() => {
+connectRedis()
+    .then((result) => {
         app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
+            logger.info(`Server is running on port ${PORT}`);
             
         })
+
+        logger.info('✅ Redis ping successful:', { result });
     })
     .catch((error) => {
-        console.log('Error connecting to the database:', error);
+        logger.error('Error connecting to the database:', error);
         process.exit(1);
         
     })
