@@ -19,11 +19,11 @@ export default function LoginAuth({ children }: { children: React.ReactNode }) {
         </div>
         <div className='relative lg:w-11/12 lg:h-9/12 md:w-full md:h-[320px] md:m-auto bg-dot-grid rounded-xl flex items-center justify-center mb-6'>
           <Image
-            src='/images/student-illustration.png'
+            src='/images/login.svg'
             alt='Student Illustration'
             width={320}
             height={320}
-            className='w-52 h-auto relative z-10'
+            className='w-52 h-auto relative z-10 md:w-[350px] md:h-[350px] '
           />
         </div>
       </section>

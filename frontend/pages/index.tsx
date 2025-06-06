@@ -51,7 +51,7 @@ export default function Home() {
       </Head>
       <main className='min-h-screen bg-background text-white flex flex-col items-center justify-between gap-8 py-10 relative overflow-hidden '>
         <div className='absolute inset-0 bg-black lg:bg-gradient-to-r lg:from-[#1a3699] lg:via-black lg:to-[#1a3699] z-0'>
-          <div className='absolute inset-0 opacity-30'>
+          {/* <div className='absolute inset-0 opacity-30'>
             {Array.from({ length: 50 }).map((_, i) => (
               <div
                 key={i}
@@ -65,7 +65,7 @@ export default function Home() {
                 }}
               />
             ))}
-          </div>
+          </div> */}
         </div>
 
         <section className='w-full lg:w-[45%] px-4 py-16 flex flex-col items-center gap-8 text-center z-10'>
