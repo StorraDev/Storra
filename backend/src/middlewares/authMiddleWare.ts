@@ -3,7 +3,7 @@ import { Country } from '../Country/countryModel';
 // import { Student } from '../Student/studentModel'; // Import your student model
 // import { Individual } from '../Individual/individualModel'; // Import your individual model
 import { ApiError } from '../utils/ApiError';
-import { asyncHandler } from '../utils/asyncHandler';
+import { asyncHandler } from '../utils/AsyncHandler';
 import jwt from 'jsonwebtoken';
 import type { RequestHandler } from 'express';
 import { logger } from '../utils/logger';
