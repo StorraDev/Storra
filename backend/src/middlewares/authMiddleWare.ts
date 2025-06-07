@@ -7,10 +7,9 @@ import type { RequestHandler } from 'express';
 type UserType = 'country' | 'school' | 'student' | 'individual';
 
 export const verifyJWT: RequestHandler = async (req, _, next) => {
-  const token = req.cookies?.accessToken || 
-                req.header('Authorization')?.replace('Bearer ', '');
+  const token = req.cookies?.accessToken || req.header('Authorization')?.replace('Bearer ', '');
 
-  if (!token) throw new ApiError({401, 'Unauthorized'});
+    if (!token) throw new ApiError({statusCode: 401, message: 'Unauthorized'});
 
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!) as {
@@ -29,11 +28,11 @@ export const verifyJWT: RequestHandler = async (req, _, next) => {
       .findById(decoded._id)
       .select('-password -refreshToken');
 
-    if (!user) throw new ApiError({401, 'Invalid token'});
+    if (!user) throw new ApiError({ statusCode: 401, message: 'Invalid token' });
     
     req.user = { ...user.toObject(), userType: decoded.userType };
     next();
   } catch (error) {
-    throw new ApiError({401, error instanceof Error ? error.message : 'Invalid token'});
+    throw new ApiError({statusCode: 401, error instanceof Error ? error.message : 'Invalid token'});
   }
 };

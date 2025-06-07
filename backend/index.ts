@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import { app } from "./app.js";
 import connectDB from "./src/config/db/db.js";
 import { connectRedis} from './src/config/redis/redis';
+import { initCountryCounter } from './src/config/redis/redisCountryCounter';
 import { logger } from "./src/utils/logger.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -13,19 +14,33 @@ dotenv.config({path: join(__dirname, ".env")});
 const PORT = process.env.PORT || 7001;
 
 
-connectDB()
-connectRedis()
-    .then((result) => {
-        app.listen(PORT, () => {
-            logger.info(`Server is running on port ${PORT}`);
-            
-        })
+const startup = async () => {
+  try {
+    // 1. First connect to MongoDB
+    await connectDB();
+    logger.info('✅ MongoDB connected');
 
-        logger.info('✅ Redis ping successful:', { result });
-    })
-    .catch((error) => {
-        logger.error('Error connecting to the database:', error);
-        process.exit(1);
-        
-    })
+    // 2. Then connect to Redis
+    await connectRedis();
+    logger.info('✅ Redis connected');
 
+    // 3. Only then initialize counters
+    await initCountryCounter();
+    logger.info('✅ Country counter initialized');
+
+    // 4. Start the server
+    app.listen(PORT, () => {
+      logger.info(`🚀 Server running on port ${PORT}`);
+    });
+
+  } catch (error) {
+    logger.error('🔥 Startup failed:', {
+      error: error.message,
+      stack: error.stack
+    });
+    process.exit(1);
+  }
+};
+
+// Start the application
+startup();

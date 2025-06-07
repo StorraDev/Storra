@@ -123,4 +123,4 @@ CountrySchema.methods.generateRefreshToken = function () {
          
   }
 
-export const Country = mongoose.model('Country', CountrySchema)
+export const Country = mongoose.model('Country', CountrySchema, 'countries')
