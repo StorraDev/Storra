@@ -14,6 +14,7 @@ countryRouter.route("/logincountry").post(
   loginCountry
 )
 
+
 countryRouter.route("/logoutcountry").post(
   verifyJWT,
   verifyCountryJWT,
@@ -32,7 +33,7 @@ countryRouter.route("/info/:name").get(
   checkCountryInfo
 )
 
-countryRouter.route("/updateprofile").put(
+countrRouter.route("/updateprofile").put(
   verifyJWT,
   verifyCountryJWT,
   updateCountryProfile

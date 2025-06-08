@@ -387,7 +387,6 @@ export const updateCountryProfile = asyncHandler(async (req: Request, res: Respo
   res.status(200).json(new ApiResponse(200, "Country profile updated successfully", country));
 });
 
-
 export const getAllCountries = asyncHandler(async (req: Request, res: Response) => {
   try {
     const countries = await Country.find().select('-password -refreshToken');
