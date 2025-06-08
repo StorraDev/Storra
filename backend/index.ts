@@ -3,6 +3,7 @@ import { app } from "./app.js";
 import connectDB from "./src/config/db/db.js";
 import { connectRedis} from './src/config/redis/redis';
 import { initCountryCounter } from './src/config/redis/redisCountryCounter';
+import {init}
 import { logger } from "./src/utils/logger.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";

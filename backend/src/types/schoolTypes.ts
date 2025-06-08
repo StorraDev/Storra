@@ -30,6 +30,7 @@ export interface ISchoolDocument {
     tertiaryStudents: string[]; 
     isVerified: boolean;
     userType: 'school';
+    refreshToken?: string;
     createdAt: Date;
     updatedAt: Date;
 }

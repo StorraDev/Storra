@@ -1,6 +1,6 @@
 import { Country } from "../Country/countryModel";
-// import Student from "../models/Student";
-// import School from "../models/Admin";
+//import { Student } from "../Student/studentModel";
+import { School }from "../School/schoolModel";
 // import Individual from "../models/Individual";
 import { ApiError } from "./ApiError";
 
@@ -24,9 +24,9 @@ export const generateAccessAndRefreshToken = async (
     // case "student":
     //   user = await Student.findById(userId);
     //   break;
-    // case "school":
-    //   user = await School.findById(userId);
-    //   break;
+    case "school":
+      user = await School.findById(userId);
+      break;
     // case "individual":
     //   user = await Individual.findById(userId);
     //   break;
