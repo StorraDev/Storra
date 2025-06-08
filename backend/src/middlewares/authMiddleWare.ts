@@ -1,15 +1,10 @@
-import dotenv from 'dotenv';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
 import { Country } from '../Country/countryModel';
 import { ApiError } from '../utils/ApiError';
 import { asyncHandler } from '../utils/AsyncHandler';
 import jwt from 'jsonwebtoken';
 import type { RequestHandler } from 'express';
 import { logger } from '../utils/logger';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-dotenv.config({path: join(__dirname, ".env")});
+
 // Extend Express Request interface
 declare global {
   namespace Express {

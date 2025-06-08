@@ -66,7 +66,7 @@ export const registerCountry = asyncHandler(async (req: Request, res: Response) 
     };
 
     logger.info(`✅ Country registered successfully: ${country.name} - ${country.registrationNumber}`);
-
+    console.log(accessToken, refreshToken);
     res
       .status(201)
       .cookie("refreshToken", refreshToken, cookieOptions)
@@ -119,36 +119,92 @@ export const registerCountry = asyncHandler(async (req: Request, res: Response) 
 export const loginCountry = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    throw new ApiError({ statusCode: 400, message: "Email and password are required" });
+  // Validate input
+  if (!email?.trim() || !password?.trim()) {
+    throw new ApiError({
+      statusCode: 400,
+      message: "Email and password are required"
+    });
   }
 
-  const country = await Country.findOne({ email }) as typeof Country.prototype;
-  if (!country) {
-    throw new ApiError({ statusCode: 401, message: "Invalid credentials" });
+  try {
+    // Find country
+    const country = await Country.findOne({ 
+      email: email.trim().toLowerCase() 
+    });
+    
+    if (!country) {
+      throw new ApiError({
+        statusCode: 401,
+        message: "Invalid email or password"
+      });
+    }
+
+    // Check password
+    const isPasswordValid = await country.comparePassword(password);
+    
+    if (!isPasswordValid) {
+      throw new ApiError({
+        statusCode: 401,
+        message: "Invalid email or password"
+      });
+    }
+
+    
+    const typedCountry = country as { _id: { toString: () => string } };
+
+    // Generate tokens
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+      typedCountry._id.toString(), 
+      "country"
+    );
+
+    // Cookie options
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none" as const,
+      maxAge: 60 * 60 * 1000, // 1 hour
+      path: "/",
+    };
+
+    // Remove sensitive data from response
+    const countryResponse = {
+      _id: country._id,
+      name: country.name,
+      email: country.email,
+      countryCode: country.countryCode,
+      registrationNumber: country.registrationNumber,
+      isVerified: country.isVerified,
+      userType: country.userType,
+      createdAt: country.createdAt,
+      updatedAt: country.updatedAt
+    };
+
+    logger.info(`✅ Country logged in successfully: ${country.name} - ${country.registrationNumber}`);
+
+    res
+      .status(200)
+      .cookie("refreshToken", refreshToken, cookieOptions)
+      .cookie("accessToken", accessToken, cookieOptions)
+      .json(new ApiResponse(200, "Login successful", countryResponse));
+
+  } catch (error) {
+    if (error instanceof ApiError) {
+      throw error;
+    }
+    
+    logger.error('❌ Country login failed:', { 
+      error: (error as Error).message,
+      email 
+    });
+    
+    throw new ApiError({
+      statusCode: 500,
+      message: "Login failed. Please try again later."
+    });
   }
-
-  const isMatch = await country.comparePassword(password);
-  if (!isMatch) {
-    throw new ApiError({ statusCode: 401, message: "Incorrect password" });
-  }
-
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(country._id.toString(), "country");
-  const cookieOptions = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none" as const,
-    maxAge: 60 * 60 * 1000,
-    path: "/",
-  };
-
-  res
-    .status(200)
-    .cookie("refreshToken", refreshToken, cookieOptions)
-    .cookie("accessToken", accessToken, cookieOptions)
-    .json(new ApiResponse(200, "Country logged in successfully", country));
 });
-
 export const logoutCountry = asyncHandler(async (req: Request, res: Response) => {
   if (!req.user || !req.user._id) {
     throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
@@ -211,5 +267,43 @@ export const refreshAccessToken = asyncHandler(async (req: Request, res: Respons
       .json(new ApiResponse(200, "Access token refreshed", { accessToken, refreshToken }));
   } catch (err) {
     throw new ApiError({ statusCode: 401, message: "Invalid or expired token" });
+  }
+});
+
+export const checkCountryInfo = asyncHandler(async (req: Request, res: Response) => {
+  const { name } = req.params;
+
+  if (!name?.trim()) {
+    throw new ApiError({
+      statusCode: 400,
+      message: "Country name is required"
+    });
+  }
+
+  try {
+    const countryInfo = await getCountryInfo(name.trim());
+    
+    res.status(200).json(new ApiResponse(
+      200, 
+      "Country information retrieved successfully", 
+      countryInfo
+    ));
+  } catch (error) {
+    logger.error('❌ Error getting country info:', { 
+      error: (error as Error).message,
+      countryName: name 
+    });
+
+    if (error instanceof Error && error.message.includes('not found')) {
+      throw new ApiError({
+        statusCode: 404,
+        message: "Country not found in our database"
+      });
+    }
+
+    throw new ApiError({
+      statusCode: 500,
+      message: "Failed to retrieve country information"
+    });
   }
 });
