@@ -354,31 +354,39 @@ export const getCountryProfile = asyncHandler(async (req: Request, res: Response
 
 export const updateCountryProfile = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user?._id;
+
   if (!userId) {
     throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
   }
 
   const { name, email } = req.body;
 
-  if (!name?.trim() || !email?.trim()) {
+  if (!name?.trim() && !email?.trim()) {
     throw new ApiError({
       statusCode: 400,
-      message: "Name and email are required"
+      message: "At least one of name or email is required to update"
     });
   }
 
   const country = await Country.findById(userId);
+
   if (!country) {
     throw new ApiError({ statusCode: 404, message: "Country not found" });
   }
 
-  country.name = name.trim();
-  country.email = email.trim().toLowerCase();
-  
+  if (name?.trim()) {
+    country.name = name.trim();
+  }
+
+  if (email?.trim()) {
+    country.email = email.trim().toLowerCase();
+  }
+
   await country.save();
 
   res.status(200).json(new ApiResponse(200, "Country profile updated successfully", country));
 });
+
 
 export const getAllCountries = asyncHandler(async (req: Request, res: Response) => {
   try {
