@@ -12,6 +12,8 @@ interface ICountryRegistration {
 interface ICountryJson {
     name: string;
     alpha3: string;
+    alpha2: string;
+    officialName: string;
 }
 
 

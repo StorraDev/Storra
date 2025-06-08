@@ -1,13 +1,15 @@
+import dotenv from 'dotenv';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { Country } from '../Country/countryModel';
-// import { School } from '../School/schoolModel'; // Import your school model
-// import { Student } from '../Student/studentModel'; // Import your student model
-// import { Individual } from '../Individual/individualModel'; // Import your individual model
 import { ApiError } from '../utils/ApiError';
 import { asyncHandler } from '../utils/AsyncHandler';
 import jwt from 'jsonwebtoken';
 import type { RequestHandler } from 'express';
 import { logger } from '../utils/logger';
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({path: join(__dirname, ".env")});
 // Extend Express Request interface
 declare global {
   namespace Express {
@@ -30,17 +32,22 @@ interface JWTPayload extends jwt.JwtPayload {
   userType: UserType;
 }
 
-export const verifyJWT: RequestHandler = asyncHandler(async (req, _, next) => {
+export const verifyJWT = asyncHandler(async (req, _, next) => {
   try {
     // Extract token from cookies or Authorization header
     const token = req.cookies?.accessToken || req.header('Authorization')?.replace('Bearer ', '');
+    console.log('🔍 Extracted token from:', {
+  cookies: req.cookies?.accessToken,
+  headers: req.header('Authorization'),
+});
+
     
     logger.info('🔍 Token received:', { status: token ? 'Present' : 'Missing' });
-    
+        
     if (!token) {
-      throw new ApiError({ 
-        statusCode: 401, 
-        message: 'Access token is required' 
+      throw new ApiError({
+        statusCode: 401,
+        message: 'Access token is required'
       });
     }
 
@@ -50,9 +57,9 @@ export const verifyJWT: RequestHandler = asyncHandler(async (req, _, next) => {
       process.env.ACCESS_TOKEN_SECRET!
     ) as JWTPayload;
 
-    console.log('🔍 Decoded token:', { 
-      userId: decoded._id, 
-      userType: decoded.userType 
+    console.log('🔍 Decoded token:', {
+      userId: decoded._id,
+      userType: decoded.userType
     });
 
     // Model mapping for different user types
@@ -65,11 +72,11 @@ export const verifyJWT: RequestHandler = asyncHandler(async (req, _, next) => {
 
     // Get the appropriate model based on user type
     const UserModel = modelMap[decoded.userType as keyof typeof modelMap];
-    
+        
     if (!UserModel) {
-      throw new ApiError({ 
-        statusCode: 401, 
-        message: 'Invalid user type in token' 
+      throw new ApiError({
+        statusCode: 401,
+        message: 'Invalid user type in token'
       });
     }
 
@@ -79,9 +86,9 @@ export const verifyJWT: RequestHandler = asyncHandler(async (req, _, next) => {
       .select('-password -refreshToken');
 
     if (!user) {
-      throw new ApiError({ 
-        statusCode: 401, 
-        message: 'User not found or token is invalid' 
+      throw new ApiError({
+        statusCode: 401,
+        message: 'User not found or token is invalid'
       });
     }
 
@@ -93,49 +100,57 @@ export const verifyJWT: RequestHandler = asyncHandler(async (req, _, next) => {
       userType: decoded.userType
     };
 
-    console.log('✅ User authenticated:', { 
-      userId: req.user._id, 
-      userType: req.user.userType 
+    console.log('✅ User authenticated:', {
+      userId: req.user._id,
+      userType: req.user.userType
     });
 
     next();
-
+    
   } catch (error) {
     console.error('❌ JWT Verification failed:', error);
-    
+        
     // Handle specific JWT errors
     if (error instanceof jwt.JsonWebTokenError) {
-      throw new ApiError({ 
-        statusCode: 401, 
-        message: 'Invalid access token' 
+      throw new ApiError({
+        statusCode: 401,
+        message: 'Invalid access token'
       });
     } else if (error instanceof jwt.TokenExpiredError) {
-      throw new ApiError({ 
-        statusCode: 401, 
-        message: 'Access token has expired' 
+      throw new ApiError({
+        statusCode: 401,
+        message: 'Access token has expired'
       });
     } else if (error instanceof ApiError) {
       throw error;
     } else {
-      throw new ApiError({ 
-        statusCode: 401, 
-        message: 'Authentication failed' 
+      throw new ApiError({
+        statusCode: 401,
+        message: 'Authentication failed'
       });
     }
   }
 });
 
-// Optional: Create type-specific middleware for specific routes
+// FIXED: Proper error handling to prevent app crashes
 export const verifyCountryJWT: RequestHandler = asyncHandler(async (req, res, next) => {
-  await verifyJWT(req, res, () => {
-    if (req.user?.userType !== 'country') {
-      throw new ApiError({ 
-        statusCode: 403, 
-        message: 'Access restricted to countries only' 
-      });
-    }
-    next();
+  // First run the general JWT verification
+  await new Promise<void>((resolve, reject) => {
+    verifyJWT(req, res, (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
   });
+
+  // Then check if user is a country
+  if (req.user?.userType !== 'country') {
+    throw new ApiError({
+      statusCode: 403,
+      message: 'Access restricted to countries only'
+    });
+  }
+  
+  next();
 });
 
 export const verifySchoolJWT: RequestHandler = asyncHandler(async (req, res, next) => {

@@ -31,7 +31,17 @@ const startup = async () => {
     // 4. Start the server
     app.listen(PORT, () => {
       logger.info(`🚀 Server running on port ${PORT}`);
+
+      console.log('Environment check:', {
+      ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET ? 'Present' : 'Missing',
+      REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET ? 'Present' : 'Missing',
+      ACCESS_TOKEN_EXPIRY: process.env.ACCESS_TOKEN_EXPIRY,
+      REFRESH_TOKEN_EXPIRY: process.env.REFRESH_TOKEN_EXPIRY
     });
+    });
+
+  // Add this to your main app file to verify env loading
+  
 
   } catch (error) {
     logger.error('🔥 Startup failed:', {

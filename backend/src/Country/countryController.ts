@@ -5,39 +5,115 @@ import { ApiResponse } from '../utils/ApiResponse';
 import { ApiError } from '../utils/ApiError';
 import { generateAccessAndRefreshToken } from '../utils/generateTokens';
 import { logger } from '../utils/logger';
+import { registerCountryService, getCountryInfo } from './countryService';
 import jwt from 'jsonwebtoken';
 
 export const registerCountry = asyncHandler(async (req: Request, res: Response) => {
-  const { name, email, password} = req.body;
+  const { name, email, password } = req.body;
 
+  // Validate required fields
   if ([name, email, password].some(field => !field?.trim())) {
-    logger.error("Registration failed: All fields are required");
-    throw new ApiError({ statusCode: 400, message: "All fields are required" });
+    logger.error("Registration failed: Name, email, and password are required");
+    throw new ApiError({ 
+      statusCode: 400, 
+      message: "Name, email, and password are required" 
+    });
   }
 
-  const existingCountry = await Country.findOne({ email });
-  if (existingCountry) {
-    logger.error("Registration failed: Email is already in use");
-    throw new ApiError({ statusCode: 409, message: "Email is already in use" });
+  try {
+    // Use the service to register the country
+    const { country, countryData } = await registerCountryService({
+      name: name.trim(),
+      email: email.trim(),
+      password: password.trim()
+    });
+
+    // Assert type for country to fix unknown _id
+    const typedCountry = country as { _id: { toString: () => string } };
+
+    // Generate tokens
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+      typedCountry._id.toString(), 
+      "country"
+    );
+
+    // Cookie options
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none" as const,
+      maxAge: 60 * 60 * 1000, // 1 hour
+      path: "/",
+    };
+
+    // Prepare response data (exclude sensitive information)
+    const countryResponse = {
+      _id: country._id,
+      name: country.name,
+      email: country.email,
+      countryCode: country.countryCode,
+      registrationNumber: country.registrationNumber,
+      isVerified: country.isVerified,
+      userType: country.userType,
+      createdAt: country.createdAt,
+      updatedAt: country.updatedAt,
+      // Include country data from JSON
+      countryInfo: {
+        officialName: countryData.officialName,
+        alpha2: countryData.alpha2,
+        alpha3: countryData.alpha3
+      }
+    };
+
+    logger.info(`✅ Country registered successfully: ${country.name} - ${country.registrationNumber}`);
+
+    res
+      .status(201)
+      .cookie("refreshToken", refreshToken, cookieOptions)
+      .cookie("accessToken", accessToken, cookieOptions)
+      .json(new ApiResponse(
+        201, 
+        "Country registered successfully", 
+        countryResponse
+      ));
+
+  } catch (error) {
+    logger.error('❌ Country registration failed:', { 
+      error: (error as Error).message,
+      name,
+      email 
+    });
+
+    // Handle specific service errors
+    if (error instanceof Error) {
+      if (error.message.includes('not found in our database')) {
+        throw new ApiError({
+          statusCode: 400,
+          message: "Country not found in our database. Please check the country name."
+        });
+      } else if (error.message.includes('already registered')) {
+        throw new ApiError({
+          statusCode: 409,
+          message: error.message
+        });
+      } else if (error.message.includes('Email already registered')) {
+        throw new ApiError({
+          statusCode: 409,
+          message: "This email is already registered"
+        });
+      } else {
+        throw new ApiError({
+          statusCode: 500,
+          message: "Registration failed. Please try again later."
+        });
+      }
+    } else {
+      throw new ApiError({
+        statusCode: 500,
+        message: "Registration failed. Please try again later."
+      });
+    }
   }
-
-  const country = await Country.create({ name, email, password}) as typeof Country.prototype;
-
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(country._id.toString(), "country");
-
-  const cookieOptions = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none" as const,
-    maxAge: 60 * 60 * 1000, // 1 hour
-    path: "/",
-  };
-
-  res
-    .status(201)
-    .cookie("refreshToken", refreshToken, cookieOptions)
-    .cookie("accessToken", accessToken, cookieOptions)
-    .json(new ApiResponse(201, "Country registered successfully", country));
 });
 
 export const loginCountry = asyncHandler(async (req: Request, res: Response) => {

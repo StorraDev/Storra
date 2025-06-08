@@ -26,24 +26,46 @@ interface ICountryDocuments extends ICountryDocument, ICountryMethods, Document{
 
 interface CountryModel extends mongoose.Model<ICountryDocuments> {}
 
-
 const CountrySchema = new Schema<ICountryDocuments, CountryModel, ICountryMethods>({
     name: {type: String, required: true, unique: true, trim: true, index: true},
-    email: { type: String, required: true, unique: true, validate: { validator: (email: string) => validator.isEmail(email), message: 'Please provide a valid email address'} },
+    email: { 
+        type: String, 
+        required: true, 
+        unique: true, 
+        validate: { 
+            validator: (email: string) => validator.isEmail(email), 
+            message: 'Please provide a valid email address'
+        } 
+    },
     password: { type: String, required: [true, 'password is required'] },
-    countryCode: { type: String, required: true, uppercase: true },
-    registrationNumber: { type: String, required: true, unique: true },
+    countryCode: { 
+        type: String, 
+        required: false, // Changed to optional for now
+        uppercase: true 
+    },
+    registrationNumber: { 
+        type: String, 
+        required: false, // Changed to optional for now
+        unique: true,
+        sparse: true // Allow multiple null values
+    },
     isVerified: {
         type: Boolean,
         default: false
     },
     userType: {
         type: String,
-        enum: ['country', 'school', 'student', 'school'],
+        enum: ['country', 'school', 'student'],
         default: 'country'
     }
-},{ timestamps: true }
-)
+},{ timestamps: true })
+
+// Hash password before saving
+CountrySchema.pre('save', async function(next) {
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 12);
+    next();
+});
 
 CountrySchema.methods.comparePassword = async function(enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
@@ -54,6 +76,7 @@ CountrySchema.methods.generateAccessToken = function () {
     _id: this._id,
     name: this.name,
     email: this.email,
+    userType: this.userType || 'country' // FIXED: Include userType in payload
   };
 
   if (!process.env.ACCESS_TOKEN_SECRET) {
@@ -65,14 +88,16 @@ CountrySchema.methods.generateAccessToken = function () {
     throw new Error('Invalid ACCESS_TOKEN_EXPIRY format. Use like "15m" or "1h"');
   }
 
-  const opts = {expiresIn: accessTokenExpiry} as jwt.SignOptions //we add "as jwt.SignOptions" to make the jwt.sign method know that we passed an object and not a callback function.
-
+  const opts = {expiresIn: accessTokenExpiry} as jwt.SignOptions;
+  
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, opts);
-  
 };
-  
+
 CountrySchema.methods.generateRefreshToken = function () {
-  const payload = { _id: this._id }; // Minimal payload for refresh token
+  const payload = { 
+    _id: this._id,
+    userType: this.userType || 'country' // Include userType for consistency
+  };
 
   if (!process.env.REFRESH_TOKEN_SECRET) {
     throw new Error('REFRESH_TOKEN_SECRET is not configured');
@@ -82,14 +107,10 @@ CountrySchema.methods.generateRefreshToken = function () {
   if (!refreshTokenExpiry || !isValidExpiry(refreshTokenExpiry)) {
     throw new Error('Invalid REFRESH_TOKEN_EXPIRY format. Use like "7d" or "30d"');
   }
-  
-  const opts =   { expiresIn: refreshTokenExpiry } as jwt.SignOptions; //we add "as jwt.SignOptions" to make the jwt.sign method know that we passed an object and not a callback function.
+    
+  const opts = { expiresIn: refreshTokenExpiry } as jwt.SignOptions;
 
-  return jwt.sign(
-    payload,
-    process.env.REFRESH_TOKEN_SECRET,
-    opts
-  );
+  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, opts);
 };
 
   
@@ -123,4 +144,4 @@ CountrySchema.methods.generateRefreshToken = function () {
          
   }
 
-export const Country = mongoose.model('Country', CountrySchema, 'countries')
+export const Country = mongoose.model('Country', CountrySchema)
