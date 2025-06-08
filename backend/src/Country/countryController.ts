@@ -307,3 +307,116 @@ export const checkCountryInfo = asyncHandler(async (req: Request, res: Response)
     });
   }
 });
+
+export const updatePassword = asyncHandler(async (req: Request, res: Response) => {
+  const { oldPassword, newPassword } = req.body;
+
+  if (!oldPassword?.trim() || !newPassword?.trim()) {
+    throw new ApiError({
+      statusCode: 400,
+      message: "Old password and new password are required"
+    });
+  }
+
+  const userId = req.user?._id;
+  if (!userId) {
+    throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
+  }
+
+  const country = await Country.findById(userId);
+  if (!country) {
+    throw new ApiError({ statusCode: 404, message: "Country not found" });
+  }
+
+  const isOldPasswordValid = await country.comparePassword(oldPassword);
+  if (!isOldPasswordValid) {
+    throw new ApiError({ statusCode: 401, message: "Old password is incorrect" });
+  }
+
+  country.password = newPassword;
+  await country.save();
+
+  res.status(200).json(new ApiResponse(200, "Password updated successfully", {}));
+});
+export const getCountryProfile = asyncHandler(async (req: Request, res: Response) => {
+  const userId = req.user?._id;
+  if (!userId) {
+    throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
+  }
+
+  const country = await Country.findById(userId).select('-password -refreshToken');
+  if (!country) {
+    throw new ApiError({ statusCode: 404, message: "Country not found" });
+  }
+
+  res.status(200).json(new ApiResponse(200, "Country profile retrieved successfully", country));
+});
+
+export const updateCountryProfile = asyncHandler(async (req: Request, res: Response) => {
+  const userId = req.user?._id;
+  if (!userId) {
+    throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
+  }
+
+  const { name, email } = req.body;
+
+  if (!name?.trim() || !email?.trim()) {
+    throw new ApiError({
+      statusCode: 400,
+      message: "Name and email are required"
+    });
+  }
+
+  const country = await Country.findById(userId);
+  if (!country) {
+    throw new ApiError({ statusCode: 404, message: "Country not found" });
+  }
+
+  country.name = name.trim();
+  country.email = email.trim().toLowerCase();
+  
+  await country.save();
+
+  res.status(200).json(new ApiResponse(200, "Country profile updated successfully", country));
+});
+
+export const getAllCountries = asyncHandler(async (req: Request, res: Response) => {
+  try {
+    const countries = await Country.find().select('-password -refreshToken');
+    
+    if (countries.length === 0) {
+      throw new ApiError({ statusCode: 404, message: "No countries found" });
+    }
+
+    res.status(200).json(new ApiResponse(200, "Countries retrieved successfully", countries));
+  } catch (error) {
+    logger.error('❌ Error retrieving countries:', { 
+      error: (error as Error).message 
+    });
+
+    throw new ApiError({
+      statusCode: 500,
+      message: "Failed to retrieve countries"
+    });
+  }
+});
+export const deleteCountry = asyncHandler(async (req: Request, res: Response) => {
+  const userId = req.user?._id;
+  if (!userId) {
+    throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
+  }
+
+  const country = await Country.findByIdAndDelete(userId);
+  if (!country) {
+    throw new ApiError({ statusCode: 404, message: "Country not found" });
+  }
+
+  res.status(200).json(new ApiResponse(200, "Country deleted successfully", {}));
+});
+
+export const registerSchool = asyncHandler(async (req: Request, res: Response) => {
+  throw new ApiError({
+    statusCode: 501,
+    message: "This feature is not implemented yet"
+  });
+});
