@@ -33,7 +33,7 @@ countryRouter.route("/info/:name").get(
   checkCountryInfo
 )
 
-countrRouter.route("/updateprofile").put(
+countryRouter.route("/updateprofile").put(
   verifyJWT,
   verifyCountryJWT,
   updateCountryProfile

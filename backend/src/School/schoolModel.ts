@@ -235,18 +235,18 @@ SchoolSchema.methods.addStudent = async function(studentId: string, level: Schoo
     // Add to appropriate level array
     switch (level) {
         case 'primary':
-            if (!this.primaryStudents.includes(studentIdObj)) {
-                this.primaryStudents.push(studentIdObj);
+            if (!this.primaryStudents.some((id: any) => new mongoose.Types.ObjectId(id).equals(studentIdObj))) {
+                this.primaryStudents.push(studentIdObj.toString());
             }
             break;
         case 'secondary':
-            if (!this.secondaryStudents.includes(studentIdObj)) {
-                this.secondaryStudents.push(studentIdObj);
+            if (!this.secondaryStudents.some((id: any) => new mongoose.Types.ObjectId(id).equals(studentIdObj))) {
+                this.secondaryStudents.push(studentIdObj.toString());
             }
             break;
         case 'tertiary':
-            if (!this.tertiaryStudents.includes(studentIdObj)) {
-                this.tertiaryStudents.push(studentIdObj);
+            if (!this.tertiaryStudents.some((id: any) => new mongoose.Types.ObjectId(id).equals(studentIdObj))) {
+                this.tertiaryStudents.push(studentIdObj.toString());
             }
             break;
     }
@@ -264,17 +264,17 @@ SchoolSchema.methods.removeStudent = async function(studentId: string, level: Sc
     switch (level) {
         case 'primary':
             this.primaryStudents = this.primaryStudents.filter(
-                id => !id.equals(studentIdObj)
+                id => !(new mongoose.Types.ObjectId(id).equals(studentIdObj))
             );
             break;
         case 'secondary':
             this.secondaryStudents = this.secondaryStudents.filter(
-                id => !id.equals(studentIdObj)
+                id => !(new mongoose.Types.ObjectId(id).equals(studentIdObj))
             );
             break;
         case 'tertiary':
             this.tertiaryStudents = this.tertiaryStudents.filter(
-                id => !id.equals(studentIdObj)
+                id => !(new mongoose.Types.ObjectId(id).equals(studentIdObj))
             );
             break;
     }
