@@ -48,12 +48,12 @@ const SchoolSchema = new Schema<ISchoolDocuments, SchoolModel, ISchoolMethods>({
         required: [true, 'Country ID is required'],
         index: true
     },
-    countryCode: {
-        type: String,
-        required: [true, 'Country code is required'],
-        uppercase: true,
-        index: true
-    },
+    // countryCode: {
+    //     type: String,
+    //     required: [true, 'Country code is required'],
+    //     uppercase: true,
+    //     index: true
+    // },
     registrationNumber: { 
         type: String, 
         required: false,

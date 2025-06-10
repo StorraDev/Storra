@@ -26,7 +26,7 @@ const initCountryCounter = async () => {
         // 3. Get current Redis value
         const currentValue = await redis.get(redisKey);
         if (currentValue !== null) {
-            logger.info(`Redis counter already initialized at ${currentValue}`);
+            logger.info(`Redis country counter already initialized at ${currentValue}`);
             return;
         }
 

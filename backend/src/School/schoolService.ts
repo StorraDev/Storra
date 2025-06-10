@@ -11,15 +11,15 @@ const registerSchoolService = async (data: ISchoolRegistration) => {
     try {
         // 1. Validate and get country information
         const country = await Country.findById(countryId);
-        if (!country) {
-            logger.error(`Country not found with ID: ${countryId}`);
-            throw new Error('Country not found');
-        }
+        // if (!country) {
+        //     logger.error(`Country not found with ID: ${countryId}`);
+        //     throw new Error('Country not found');
+        // }
 
-        if (!country.isVerified) {
-            logger.error(`Country not verified: ${country.name}`);
-            throw new Error('Country must be verified before schools can register');
-        }
+        // if (!country.isVerified) {
+        //     logger.error(`Country not verified: ${country.name}`);
+        //     throw new Error('Country must be verified before schools can register');
+        // }
 
         // 2. Check if school email already exists
         const existingSchool = await School.findOne({
@@ -56,7 +56,7 @@ const registerSchoolService = async (data: ISchoolRegistration) => {
             email: email.toLowerCase(),
             password: password.trim(),
             countryId: country._id,
-            countryCode: country.countryCode,
+            //countryCode: country.countryCode,
             registrationNumber,
             address: address.trim(),
             phone: phone.trim(),
