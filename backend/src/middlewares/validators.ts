@@ -22,7 +22,7 @@ const schoolRegisterValidator = async (req: Request, res: Response, next: NextFu
     name: Joi.string().min(2).max(100).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
-    countryId: Joi.string().required(),
+    countryName: Joi.string().required(),
     address: Joi.string().max(500).required(),
     phone: Joi.string().pattern(/^[0-9\s\-\+]+$/).required(),
     schoolLevels: Joi.array().items(Joi.string()).min(1).required(),

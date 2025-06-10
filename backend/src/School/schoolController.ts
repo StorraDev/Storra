@@ -18,7 +18,7 @@ export const registerSchool = asyncHandler(async (req: Request, res: Response) =
         name, 
         email, 
         password, 
-        countryId, 
+        countryName, 
         address, 
         phone, 
         schoolLevels, 
@@ -26,7 +26,7 @@ export const registerSchool = asyncHandler(async (req: Request, res: Response) =
     } = req.body;
 
     // Validate required fields
-    const requiredFields = [name, email, password, countryId, address, phone, schoolLevels];
+    const requiredFields = [name, email, password, countryName, address, phone, schoolLevels];
     if (requiredFields.some(field => !field || (typeof field === 'string' && !field.trim()))) {
         logger.error("School registration failed: All required fields must be provided");
         throw new ApiError({ 
@@ -49,7 +49,7 @@ export const registerSchool = asyncHandler(async (req: Request, res: Response) =
             name: name.trim(),
             email: email.trim(),
             password: password.trim(),
-            countryId: countryId.trim(),
+            countryName: countryName.trim(),
             address: address.trim(),
             phone: phone.trim(),
             schoolLevels,
@@ -76,7 +76,7 @@ export const registerSchool = asyncHandler(async (req: Request, res: Response) =
             _id: school._id,
             name: school.name,
             email: school.email,
-            countryId: school.countryId,
+            //countryId: school.countryId,
             countryCode: school.countryCode,
             registrationNumber: school.registrationNumber,
             address: school.address,
@@ -111,7 +111,7 @@ export const registerSchool = asyncHandler(async (req: Request, res: Response) =
             error: (error as Error).message,
             name,
             email,
-            countryId
+            countryName
         });
 
         // Handle specific service errors

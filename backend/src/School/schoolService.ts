@@ -1,4 +1,3 @@
-// School/schoolService.ts
 import { School } from './schoolModel';
 import { Country } from '../Country/countryModel';
 import { logger } from '../utils/logger';
@@ -6,43 +5,29 @@ import { getNextSchoolCounter } from '../config/redis/redisSchoolCounter';
 import { ISchoolRegistration, SUBSCRIPTION_PLANS } from '../types/schoolTypes';
 
 const registerSchoolService = async (data: ISchoolRegistration) => {
-    const { name, email, password, countryId, address, phone, schoolLevels, subscriptionType } = data;
+    const { name, email, password, countryName, address, phone, schoolLevels, subscriptionType } = data;
 
     try {
-        // 1. Validate and get country information
-        const country = await Country.findById(countryId);
-        // if (!country) {
-        //     logger.error(`Country not found with ID: ${countryId}`);
-        //     throw new Error('Country not found');
-        // }
-
-        // if (!country.isVerified) {
-        //     logger.error(`Country not verified: ${country.name}`);
-        //     throw new Error('Country must be verified before schools can register');
-        // }
+        // 1. Validate and get country
+        const country = await Country.findOne({ name: { $regex: new RegExp(`^${countryName.trim()}$`, 'i') } });
+        if (!country) {
+            throw new Error('Country not found');
+        }
 
         // 2. Check if school email already exists
-        const existingSchool = await School.findOne({
-            email: email.toLowerCase()
-        });
-
+        const existingSchool = await School.findOne({ email: email.toLowerCase() });
         if (existingSchool) {
-            logger.error(`Email already registered: ${email}`);
             throw new Error('Email already registered');
         }
 
-        // 3. Validate school levels
-        if (!schoolLevels || schoolLevels.length === 0) {
-            throw new Error('At least one school level must be selected');
-        }
-
+        // 3. Validate levels
         const validLevels = ['primary', 'secondary', 'tertiary'];
         const invalidLevels = schoolLevels.filter(level => !validLevels.includes(level));
         if (invalidLevels.length > 0) {
             throw new Error(`Invalid school levels: ${invalidLevels.join(', ')}`);
         }
 
-        // 4. Validate subscription type
+        // 4. Validate subscription
         if (!SUBSCRIPTION_PLANS[subscriptionType]) {
             throw new Error('Invalid subscription type');
         }
@@ -50,17 +35,17 @@ const registerSchoolService = async (data: ISchoolRegistration) => {
         // 5. Generate unique registration number
         const registrationNumber = await getNextSchoolCounter(country.registrationNumber);
 
-        // 6. Create school document
+        // 6. Create school
         const newSchool = await School.create({
             name: name.trim(),
             email: email.toLowerCase(),
             password: password.trim(),
             countryId: country._id,
-            //countryCode: country.countryCode,
+            countryCode: country.countryCode,
             registrationNumber,
             address: address.trim(),
             phone: phone.trim(),
-            schoolLevels: [...new Set(schoolLevels)], // Remove duplicates
+            schoolLevels: [...new Set(schoolLevels)],
             subscriptionType,
             maxStudents: SUBSCRIPTION_PLANS[subscriptionType].maxStudents,
             currentStudents: 0,
@@ -71,33 +56,38 @@ const registerSchoolService = async (data: ISchoolRegistration) => {
             isVerified: false
         });
 
-        logger.info(`✅ School registered successfully: ${newSchool.name} (${newSchool.registrationNumber}) under ${country.name}`);
+        // 7. Populate country info
+        const schoolWithCountry = await School.findById(newSchool._id).populate('countryId');
 
-        // 7. Return created school with country info
+        if (!schoolWithCountry || !schoolWithCountry.countryId) {
+            throw new Error('Failed to retrieve populated country info');
+        }
+
+        const populatedCountry = schoolWithCountry.countryId as any;
+
+        logger.info(`✅ School registered: ${newSchool.name} (${registrationNumber}) under ${populatedCountry.name}`);
+
         return {
-            school: newSchool,
+            school: schoolWithCountry,
             countryInfo: {
-                name: country.name,
-                code: country.countryCode,
-                registrationNumber: country.registrationNumber
+                name: populatedCountry.name,
+                code: populatedCountry.countryCode,
+                registrationNumber: populatedCountry.registrationNumber
             },
             subscriptionInfo: SUBSCRIPTION_PLANS[subscriptionType]
         };
 
     } catch (error) {
-        logger.error('❌ Error in registerSchoolService', { 
+        logger.error('❌ Error in registerSchoolService', {
             error: (error as Error).message,
             schoolName: name,
-            countryId
+            countryName
         });
-        
-        if (error instanceof Error) {
-            throw error;
-        } else {
-            throw new Error('Failed to register school');
-        }
+
+        throw error instanceof Error ? error : new Error('Failed to register school');
     }
 };
+
 
 const getSchoolInfo = async (schoolId: string) => {
     try {

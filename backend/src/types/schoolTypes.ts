@@ -5,7 +5,7 @@ export interface ISchoolRegistration {
     name: string;
     email: string;
     password: string;
-    countryId: string;
+    countryName: string;
     address: string;
     phone: string;
     schoolLevels: SchoolLevel[];
@@ -17,7 +17,7 @@ export interface ISchoolDocument {
     email: string;
     password: string;
     countryId: mongoose.Types.ObjectId;
-    //countryCode: string;
+    countryCode: string;
     registrationNumber: string;
     address: string;
     phone: string;
