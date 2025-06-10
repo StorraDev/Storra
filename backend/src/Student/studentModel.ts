@@ -58,7 +58,7 @@ const StudentSchema = new Schema<IStudentDocuments, StudentModel, IStudentMethod
     studentNumber: {
         type: String,
         required: false,
-        unique: true,
+        //unique: true,
         sparse: true,
         index: true
     },
@@ -110,10 +110,10 @@ const StudentSchema = new Schema<IStudentDocuments, StudentModel, IStudentMethod
 });
 
 // Indexes for better query performance
-StudentSchema.index({ schoolId: 1, level: 1 });
-StudentSchema.index({ email: 1 });
-StudentSchema.index({ studentNumber: 1 });
-StudentSchema.index({ isActive: 1 });
+// StudentSchema.index({ schoolId: 1, level: 1 });
+// StudentSchema.index({ email: 1 });
+// StudentSchema.index({ studentNumber: 1 });
+// StudentSchema.index({ isActive: 1 });
 
 // Virtual for full name
 StudentSchema.virtual('fullName').get(function() {

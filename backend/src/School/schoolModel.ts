@@ -129,10 +129,10 @@ const SchoolSchema = new Schema<ISchoolDocuments, SchoolModel, ISchoolMethods>({
 });
 
 // Indexes for better query performance
-SchoolSchema.index({ countryId: 1, registrationNumber: 1 });
-SchoolSchema.index({ email: 1 });
-SchoolSchema.index({ 'schoolLevels': 1 });
-SchoolSchema.index({ subscriptionType: 1 });
+// SchoolSchema.index({ countryId: 1, registrationNumber: 1 });
+// SchoolSchema.index({ email: 1 });
+// SchoolSchema.index({ 'schoolLevels': 1 });
+// SchoolSchema.index({ subscriptionType: 1 });
 
 // Virtual for country details
 SchoolSchema.virtual('country', {
