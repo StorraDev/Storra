@@ -33,8 +33,8 @@ const startup = async () => {
     await initSchoolCounter();
     logger.info('✅ School counter initialized');
 
-    await getNextSchoolCounter('yourCountryRegistrationNumber');
-    logger.info('✅ School counter ready for use');
+    // await getNextSchoolCounter('yourCountryRegistrationNumber');
+    // logger.info('✅ School counter ready for use');
 
     await initStudentCounter();
     logger.info('✅ Student counter initialized');

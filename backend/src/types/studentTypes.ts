@@ -7,9 +7,11 @@ export interface IStudentRegistration {
     lastName: string;
     email: string;
     password: string;
+    phone: string;
     dateOfBirth: Date;
     gender: 'male' | 'female' | 'other';
-    schoolId: mongoose.Types.ObjectId;
+    countryName: string;
+    schoolName: string;
     level: SchoolLevel;
     parentEmail?: string;
     parentPhone?: string;
