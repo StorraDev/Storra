@@ -175,8 +175,10 @@ StudentSchema.pre('save', async function(next) {
 StudentSchema.methods.generateAccessToken = function(): string {
     const payload = {
         _id: this._id,
-        name: this.name,
+        firstName: this.firstName,
+        lastName: this.lastName,
         email: this.email,
+        level: this.level,
         userType: this.userType,
         countryId: this.countryId,
         registrationNumber: this.registrationNumber
