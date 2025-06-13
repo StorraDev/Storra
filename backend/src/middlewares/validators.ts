@@ -35,4 +35,24 @@ const schoolRegisterValidator = async (req: Request, res: Response, next: NextFu
     res.status(400).json({ error: err.details.map((e: any) => e.message) });
   }
 }
-export { countryRegisterValidator, schoolRegisterValidator };
+
+const studentRegisterValidator = async (req: Request, res: Response, next: NextFunction) => {
+  const schema = Joi.object({
+    firstName: Joi.string().min(2).max(50).required(),
+    lastName: Joi.string().min(2).max(50).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+    dateOfBirth: Joi.date().less('now').required(),
+    phone: Joi.string().pattern(/^[0-9\s\-\+]+$/).optional(),
+    address: Joi.string().max(500).required(),
+    schoolId: Joi.string().required(),
+    level: Joi.string().valid('primary', 'secondary', 'highschool').required(),
+  });
+  try {
+    await schema.validateAsync(req.body, { abortEarly: false });
+    next();
+  } catch (err: any) {
+    res.status(400).json({ error: err.details.map((e: any) => e.message) });
+  }
+}
+export { countryRegisterValidator, schoolRegisterValidator, studentRegisterValidator };

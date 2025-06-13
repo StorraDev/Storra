@@ -2,6 +2,21 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { IStudentDocuments, IStudentMethods } from '../types/studentTypes';
 import validator from 'validator';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import ms from 'ms';
+
+declare global {
+    namespace NodeJS {
+      interface ProcessEnv {
+        ACCESS_TOKEN_SECRET: string;
+        REFRESH_TOKEN_SECRET: string;
+        ACCESS_TOKEN_EXPIRY: string;
+        REFRESH_TOKEN_EXPIRY: string;
+      }
+    }
+}
+
 
 interface StudentModel extends mongoose.Model<IStudentDocuments> {}
 
@@ -27,6 +42,11 @@ const StudentSchema = new Schema<IStudentDocuments, StudentModel, IStudentMethod
             validator: (email: string) => validator.isEmail(email),
             message: 'Please provide a valid email address'
         }
+    },
+    password: {
+        type: String,
+        required: [true, 'Password is required'],
+        minlength: [6, 'Password must be at least 6 characters long']
     },
     dateOfBirth: {
         type: Date,
@@ -55,10 +75,10 @@ const StudentSchema = new Schema<IStudentDocuments, StudentModel, IStudentMethod
         required: [true, 'School level is required'],
         index: true
     },
-    studentNumber: {
+    registrationNumber: {
         type: String,
         required: false,
-        //unique: true,
+        unique: true,
         sparse: true,
         index: true
     },
@@ -142,6 +162,59 @@ StudentSchema.virtual('school', {
     justOne: true
 });
 
+StudentSchema.methods.comparePassword = async function(enteredPassword: string): Promise<boolean> {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
+
+StudentSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 12);
+    next();
+});
+
+StudentSchema.methods.generateAccessToken = function(): string {
+    const payload = {
+        _id: this._id,
+        name: this.name,
+        email: this.email,
+        userType: this.userType,
+        countryId: this.countryId,
+        registrationNumber: this.registrationNumber
+    };
+
+    if (!process.env.ACCESS_TOKEN_SECRET) {
+        throw new Error('ACCESS_TOKEN_SECRET is not configured');
+    }
+
+    const accessTokenExpiry = process.env.ACCESS_TOKEN_EXPIRY;
+    if (!accessTokenExpiry || !isValidExpiry(accessTokenExpiry)) {
+        throw new Error('Invalid ACCESS_TOKEN_EXPIRY format. Use like "15m" or "1h"');
+    }
+
+    const opts = { expiresIn: accessTokenExpiry } as jwt.SignOptions;
+    
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, opts);
+};
+
+StudentSchema.methods.generateRefreshToken = function(): string {
+    const payload = { 
+        _id: this._id,
+        userType: this.userType
+    };
+
+    if (!process.env.REFRESH_TOKEN_SECRET) {
+        throw new Error('REFRESH_TOKEN_SECRET is not configured');
+    }
+
+    const refreshTokenExpiry = process.env.REFRESH_TOKEN_EXPIRY;
+    if (!refreshTokenExpiry || !isValidExpiry(refreshTokenExpiry)) {
+        throw new Error('Invalid REFRESH_TOKEN_EXPIRY format. Use like "7d" or "30d"');
+    }
+        
+    const opts = { expiresIn: refreshTokenExpiry } as jwt.SignOptions;
+
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, opts);
+};
 // Methods
 StudentSchema.methods.getFullName = function(): string {
     return `${this.firstName} ${this.lastName}`;
@@ -165,9 +238,9 @@ StudentSchema.pre('save', function(next) {
     const age = this.getAge();
     
     // Basic age validation based on level
-    if (this.level === 'primary' && (age < 3 || age > 12)) {
+    if (this.level === 'primary' && (age < 3 || age > 15)) {
         return next(new Error('Primary level students should typically be between 3-12 years old'));
-    } else if (this.level === 'secondary' && (age < 10 || age > 20)) {
+    } else if (this.level === 'secondary' && (age < 10 || age > 24)) {
         return next(new Error('Secondary level students should typically be between 10-20 years old'));
     } else if (this.level === 'tertiary' && age < 16) {
         return next(new Error('Tertiary level students should typically be 16 years or older'));
@@ -175,5 +248,28 @@ StudentSchema.pre('save', function(next) {
     
     next();
 });
+
+function isValidExpiry(expiry: any): boolean {
+    if(Number(expiry) < 0) return false;
+
+    const regexIsNumber = /^\d+$/;
+    const regexAlphaNum = /^(\d{1,})+\s?[a-z]+$/;
+
+    const isNumber = regexIsNumber.test(expiry);
+    const isAlphaNum = regexAlphaNum.test(expiry);
+
+    if (isNumber) return true;
+    else {
+        if(isAlphaNum) {
+            try {
+                const milliseconds = ms(expiry);
+                return milliseconds != undefined ? true : false;
+            } catch {
+                return false;
+            }
+        } else return false;
+    }
+}
+
 
 export const Student = mongoose.model<IStudentDocuments>('Student', StudentSchema);

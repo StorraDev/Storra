@@ -6,6 +6,7 @@ export interface IStudentRegistration {
     firstName: string;
     lastName: string;
     email: string;
+    password: string;
     dateOfBirth: Date;
     gender: 'male' | 'female' | 'other';
     schoolId: mongoose.Types.ObjectId;
@@ -20,16 +21,19 @@ export interface IStudentDocument {
     lastName: string;
     fullName: string; // Virtual field
     email: string;
+    password: string;
     dateOfBirth: Date;
     age: number; // Virtual field
     gender: 'male' | 'female' | 'other';
     schoolId: mongoose.Types.ObjectId;
     level: SchoolLevel;
-    studentNumber: string;
+    registrationNumber: string;
     parentEmail?: string;
     parentPhone?: string;
     address: string;
     isActive: boolean;
+    profilePicture?: string;
+    refreshToken?: string;
     enrollmentDate: Date;
     userType: 'student';
     createdAt: Date;

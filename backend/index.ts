@@ -4,6 +4,7 @@ import connectDB from "./src/config/db/db.js";
 import { connectRedis} from './src/config/redis/redis';
 import { initCountryCounter } from './src/config/redis/redisCountryCounter';
 import { initSchoolCounter, getNextSchoolCounter } from './src/config/redis/redisSchoolCounter';
+import {initStudentCounter, getNextStudentCounter} from './src/config/redis/redisStudentCounter';
 import { logger } from "./src/utils/logger.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -34,6 +35,10 @@ const startup = async () => {
 
     await getNextSchoolCounter('yourCountryRegistrationNumber');
     logger.info('✅ School counter ready for use');
+
+    await initStudentCounter();
+    logger.info('✅ Student counter initialized');
+
     // 4. Start the server
     app.listen(PORT, () => {
       logger.info(`🚀 Server running on port ${PORT}`);
