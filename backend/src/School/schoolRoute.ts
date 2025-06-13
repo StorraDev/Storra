@@ -1,11 +1,22 @@
 import { Router } from 'express';
-import { registerSchool } from './schoolController';
+import { registerSchool, loginSchool, logoutSchool, refreshAccessToken, updatePassword, updateSchoolProfile, deleteSchool, getAllSchools, getSchoolProfile, checkSchoolInfo } from './schoolController';
 import { schoolRegisterValidator } from '../middlewares/validators';
+import { verifySchoolJWT, verifyJWT } from '../middlewares/authMiddleWare';
 
 const schoolRouter = Router();
 
 // Register school route
 
 schoolRouter.post('/registerschool', schoolRegisterValidator, registerSchool);
+schoolRouter.post('/loginschool', loginSchool);
+schoolRouter.post('/logoutschool', verifyJWT, verifySchoolJWT, logoutSchool);
+schoolRouter.post('/refreshaccesstoken', verifyJWT, verifySchoolJWT, refreshAccessToken);
+schoolRouter.post('/updatepassword', verifyJWT, verifySchoolJWT, updatePassword);
+schoolRouter.post('/updateschoolprofile', verifyJWT, verifySchoolJWT, updateSchoolProfile);
+schoolRouter.post('/deleteschool', verifyJWT, verifySchoolJWT, deleteSchool);
+schoolRouter.get('/all', verifyJWT, verifySchoolJWT, getAllSchools);
+schoolRouter.get('/profile', verifyJWT, verifySchoolJWT, getSchoolProfile);
+schoolRouter.get('/info/:name', verifyJWT, verifySchoolJWT, checkSchoolInfo);
+
 
 export default schoolRouter;

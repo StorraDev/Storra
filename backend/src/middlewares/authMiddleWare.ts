@@ -1,4 +1,5 @@
 import { Country } from '../Country/countryModel';
+import { School } from '../School/schoolModel';
 import { ApiError } from '../utils/ApiError';
 import { asyncHandler } from '../utils/AsyncHandler';
 import jwt from 'jsonwebtoken';
@@ -60,14 +61,24 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     // Model mapping for different user types
     const modelMap = {
       country: Country,
-      // school: School,
+      school: School,
       // student: Student,
       // individual: Individual
-    };
+    } as const;
+
+    // Only allow userType values that exist in modelMap
+    type ModelMapKey = keyof typeof modelMap;
+
+    if (!Object.prototype.hasOwnProperty.call(modelMap, decoded.userType)) {
+      throw new ApiError({
+        statusCode: 401,
+        message: 'Invalid user type in token'
+      });
+    }
 
     // Get the appropriate model based on user type
-    const UserModel = modelMap[decoded.userType as keyof typeof modelMap];
-        
+    const UserModel = modelMap[decoded.userType as ModelMapKey];
+
     if (!UserModel) {
       throw new ApiError({
         statusCode: 401,
@@ -76,7 +87,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     }
 
     // Find the user in the appropriate collection
-    const user = await UserModel
+    const user = await (UserModel as typeof Country)
       .findById(decoded._id)
       .select('-password -refreshToken');
 
@@ -87,6 +98,8 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
       });
     }
 
+    
+
     // Attach user to request object with userType
     const userObj = user.toObject();
     req.user = {
@@ -96,8 +109,8 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     };
 
     console.log('✅ User authenticated:', {
-      userId: req.user._id,
-      userType: req.user.userType
+      userId: req.user?._id,
+      userType: req.user?.userType
     });
 
     next();

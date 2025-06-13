@@ -19,7 +19,7 @@ interface ICountryJson {
 
 interface ICountryDocument extends ICountryRegistration {
     countryCode: string;
-    userType: string;
+    userType: 'country';
     registrationNumber: string;
     refreshToken?: string;
     isVerified: boolean;

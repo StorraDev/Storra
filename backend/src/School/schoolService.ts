@@ -1,6 +1,7 @@
 import { School } from './schoolModel';
 import { Country } from '../Country/countryModel';
 import { logger } from '../utils/logger';
+import { client as redis } from '../config/redis/redis';
 import { getNextSchoolCounter } from '../config/redis/redisSchoolCounter';
 import { ISchoolRegistration, SUBSCRIPTION_PLANS } from '../types/schoolTypes';
 
@@ -34,7 +35,7 @@ const registerSchoolService = async (data: ISchoolRegistration) => {
 
         // 5. Generate unique registration number
         const registrationNumber = await getNextSchoolCounter(country.registrationNumber);
-
+        const schoolNumber = parseInt(registrationNumber.split('SCH')[1]);
         // 6. Create school
         const newSchool = await School.create({
             name: name.trim(),
@@ -55,6 +56,8 @@ const registerSchoolService = async (data: ISchoolRegistration) => {
             userType: 'school',
             isVerified: false
         });
+
+        await redis.set('global:schoolCounter', schoolNumber);
 
         // 7. Populate country info
         const schoolWithCountry = await School.findById(newSchool._id).populate('countryId');

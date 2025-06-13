@@ -421,9 +421,3 @@ export const deleteCountry = asyncHandler(async (req: Request, res: Response) =>
   res.status(200).json(new ApiResponse(200, "Country deleted successfully", {}));
 });
 
-export const registerSchool = asyncHandler(async (req: Request, res: Response) => {
-  throw new ApiError({
-    statusCode: 501,
-    message: "This feature is not implemented yet"
-  });
-});
