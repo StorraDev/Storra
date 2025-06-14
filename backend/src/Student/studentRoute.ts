@@ -1,20 +1,20 @@
 import { Router } from 'express';
 import { registerStudent, loginStudent, logoutStudent, refreshAccessToken, updatePassword, updateStudentProfile, getStudentProfile, checkStudentInfo } from './studentController';
-import { schoolRegisterValidator } from '../middlewares/validators';
+import { studentRegisterValidator } from '../middlewares/validators';
 import { verifyStudentJWT, verifyJWT } from '../middlewares/authMiddleWare';
 
-const schoolRouter = Router();
+const studentRouter = Router();
 
-// Register school route
+// Register student route
 
-schoolRouter.post('/registerschool', schoolRegisterValidator, registerStudent);
-schoolRouter.post('/loginschool', loginStudent);
-schoolRouter.post('/logoutschool', verifyJWT, verifyStudentJWT, logoutStudent);
-schoolRouter.post('/refreshaccesstoken', verifyJWT, verifyStudentJWT, refreshAccessToken);
-schoolRouter.put('/updatepassword', verifyJWT, verifyStudentJWT, updatePassword);
-schoolRouter.put('/updateschoolprofile', verifyJWT, verifyStudentJWT, updateStudentProfile);
-schoolRouter.get('/profile', verifyJWT, verifyStudentJWT, getStudentProfile);
-schoolRouter.get('/info/:name', verifyJWT, verifyStudentJWT, checkStudentInfo);
+studentRouter.post('/registerstudent', studentRegisterValidator, registerStudent);
+studentRouter.post('/loginstudent', loginStudent);
+studentRouter.post('/logoutstudent', verifyJWT, verifyStudentJWT, logoutStudent);
+studentRouter.post('/refreshaccesstoken', verifyJWT, verifyStudentJWT, refreshAccessToken);
+studentRouter.put('/updatepassword', verifyJWT, verifyStudentJWT, updatePassword);
+studentRouter.put('/updatestudentprofile', verifyJWT, verifyStudentJWT, updateStudentProfile);
+studentRouter.get('/profile', verifyJWT, verifyStudentJWT, getStudentProfile);
+studentRouter.get('/info/:name', verifyJWT, verifyStudentJWT, checkStudentInfo);
 
 
-export default schoolRouter;
+export default studentRouter;

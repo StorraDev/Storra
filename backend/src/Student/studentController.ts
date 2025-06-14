@@ -74,6 +74,7 @@ export const registerStudent = asyncHandler(async (req: Request, res: Response) 
             firstName: student.firstName,
             lastName: student.lastName,
             email: student.email,
+            dateOfBirth: student.dateOfBirth,
             gender: student.gender,
             schoolName: school.name,
             countryName: countryInfo.name,
