@@ -7,7 +7,7 @@ import { client as redis } from '../config/redis/redis';
 import { getNextStudentCounter } from '../config/redis/redisStudentCounter';
 import { IStudentDocument, IStudentRegistration } from '../types/studentTypes';
 import { ApiError } from '../utils/ApiError'
-
+import { getAge } from '../utils/getAge'
 
 const registerStudentService = async (data: IStudentRegistration) => {
     const { firstName, lastName, email, password, gender, address, phone, countryName, schoolName, dateOfBirth, level   } = data;
@@ -46,15 +46,22 @@ const registerStudentService = async (data: IStudentRegistration) => {
             throw new Error('You can only select one school level');
         }
 
+        // validate date of birth
+       const parsedDOB = typeof dateOfBirth === 'string' ? new Date(dateOfBirth) : dateOfBirth;
+
+        const age = getAge(parsedDOB);
         const levelToUse = Array.isArray(level) ? level[0] : level;
 
-        // validate date of birth
-        if (!dateOfBirth || !(dateOfBirth instanceof Date) || isNaN(dateOfBirth.getTime())) {
-            throw new Error('Invalid date of birth');
+        if (levelToUse === 'primary' && (age < 3 || age > 15)) {
+            throw new Error('Primary level students should typically be between 3 and 15 years old');
+        } else if (levelToUse === 'secondary' && (age < 10 || age > 24)) {
+            throw new Error('Secondary level students should typically be between 10 and 24 years old');
+        } else if (levelToUse === 'tertiary' && age < 16) {
+            throw new Error('Tertiary level students should be 16 years or older');
         }
 
         // 5. Generate unique registration number
-        const registrationNumber = await getNextStudentCounter(country.registrationNumber, school.registrationNumber);
+        const registrationNumber = await getNextStudentCounter( school.registrationNumber);
         const studentNumber = parseInt(registrationNumber.split('STU')[1]);
         // 6. Create school
         const newStudent = await Student.create({
@@ -66,7 +73,7 @@ const registerStudentService = async (data: IStudentRegistration) => {
             countryId: country._id,
             countryCode: country.countryCode,
             countryName,
-            dateOfBirth,
+            dateOfBirth: parsedDOB,
             level: levelToUse,
             schoolId: school._id,
             schoolName,

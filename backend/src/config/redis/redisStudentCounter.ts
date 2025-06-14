@@ -67,7 +67,7 @@ const initStudentCounter = async () => {
 }
 
 // Function to get next student counter for a specific country
-const getNextStudentCounter = async (countryRegistrationNumber: string, schoolRegistrationNumber: string): Promise<string> => {
+const getNextStudentCounter = async (schoolRegistrationNumber: string): Promise<string> => {
     try {
         const redisKey = 'global:studentCounter';
         
@@ -81,7 +81,7 @@ const getNextStudentCounter = async (countryRegistrationNumber: string, schoolRe
             try {
                 // Increment global student counter
                 const globalNumber = await redis.incr(redisKey);
-                const registrationNumber = `${countryRegistrationNumber}${schoolRegistrationNumber}/STU${globalNumber}`;
+                const registrationNumber = `${schoolRegistrationNumber}/STU${globalNumber}`;
                 
                 // Check if this registration number already exists
                 const existingStudent = await Student.findOne({ registrationNumber });
@@ -112,7 +112,7 @@ const getNextStudentCounter = async (countryRegistrationNumber: string, schoolRe
     } catch (error) {
         logger.error('❌ Error in getNextStudentCounter', { 
             error: (error as Error).message,
-            countryRegistrationNumber,
+            //countryRegistrationNumber,
             schoolRegistrationNumber
         });
         throw error;
