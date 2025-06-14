@@ -24,6 +24,7 @@ export interface IStudentDocument {
     fullName: string; // Virtual field
     email: string;
     password: string;
+    phone: string;
     dateOfBirth: Date;
     age: number; // Virtual field
     gender: 'male' | 'female' | 'other';
@@ -33,7 +34,10 @@ export interface IStudentDocument {
     parentEmail?: string;
     parentPhone?: string;
     address: string;
+    schoolName: string;
+    countryName: string;
     isActive: boolean;
+    isVerified: boolean;
     profilePicture?: string;
     refreshToken?: string;
     enrollmentDate: Date;
@@ -43,6 +47,9 @@ export interface IStudentDocument {
 }
 
 export interface IStudentMethods {
+    comparePassword(enteredPassword: string): Promise<boolean>;
+    generateAccessToken(): string;
+    generateRefreshToken(): string;
     getFullName(): string;
     getAge(): number;
 }

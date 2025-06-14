@@ -48,6 +48,17 @@ const StudentSchema = new Schema<IStudentDocuments, StudentModel, IStudentMethod
         required: [true, 'Password is required'],
         minlength: [6, 'Password must be at least 6 characters long']
     },
+    phone: {
+        type: String,
+        required: true,
+        trim: true,
+        validate: {
+            validator: function(phone: string) {
+                return !phone || validator.isMobilePhone(phone, 'any');
+            },
+            message: 'Please provide a valid parent phone number'
+        }
+    },
     dateOfBirth: {
         type: Date,
         required: [true, 'Date of birth is required'],
@@ -113,6 +124,10 @@ const StudentSchema = new Schema<IStudentDocuments, StudentModel, IStudentMethod
     isActive: {
         type: Boolean,
         default: true
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     },
     enrollmentDate: {
         type: Date,

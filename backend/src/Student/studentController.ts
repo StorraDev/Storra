@@ -29,7 +29,7 @@ export const registerStudent = asyncHandler(async (req: Request, res: Response) 
     // Validate required fields
     const requiredFields = [firstName, lastName, email, password, gender, address, phone, countryName, schoolName, dateOfBirth, level];
     if (requiredFields.some(field => !field || (typeof field === 'string' && !field.trim()))) {
-        logger.error("School registration failed: All required fields must be provided");
+        logger.error("student registration failed: All required fields must be provided");
         throw new ApiError({ 
             statusCode: 400, 
             message: "firstName, lastName, email, password, address, phone, countryName, schoolName, dateOfBirth, level" 
@@ -37,7 +37,7 @@ export const registerStudent = asyncHandler(async (req: Request, res: Response) 
     }
 
     try {
-        // Use the service to register the school
+        // Use the service to register the student
         const { student, school, countryInfo } = await registerStudentService({
             firstName: firstName.trim(),
             lastName: lastName.trim(),
@@ -69,29 +69,25 @@ export const registerStudent = asyncHandler(async (req: Request, res: Response) 
 
         // Prepare response data (exclude sensitive information)
         const studentResponse = {
-            _id: school._id,
-            name: school.name,
-            email: school.email,
-            gender: 
-            //countryId: school.countryId,
-            countryCode: school.countryCode,
-            registrationNumber: school.registrationNumber,
-            address: school.address,
-            phone: school.phone,
-            schoolLevels: school.schoolLevels,
-            subscriptionType: school.subscriptionType,
-            maxStudents: school.maxStudents,
-            currentStudents: school.currentStudents,
-            isVerified: school.isVerified,
-            userType: school.userType,
-            createdAt: school.createdAt,
-            updatedAt: school.updatedAt,
-            // Include country and subscription info
-            countryInfo,
-            subscriptionInfo
+            _id: student._id,
+            firstName: student.firstName,
+            lastName: student.lastName,
+            email: student.email,
+            gender: student.gender,
+            schoolName: school.name,
+            countryName: countryInfo.name,
+            registrationNumber: student.registrationNumber,
+            address: student.address,
+            phone: student.phone,
+            level: student.level,
+            isActive: student.isActive,
+            isVerified: student.isVerified,
+            userType: student.userType,
+            createdAt: student.createdAt,
+            updatedAt: student.updatedAt,
         };
 
-        logger.info(`✅ School registered successfully: ${school.name} - ${school.registrationNumber}`);
+        logger.info(`✅ student registered successfully: ${student.firstName} ${student.lastName} - ${student.registrationNumber}`);
         
         res
             .status(201)
@@ -99,36 +95,37 @@ export const registerStudent = asyncHandler(async (req: Request, res: Response) 
             .cookie("accessToken", accessToken, cookieOptions)
             .json(new ApiResponse(
                 201, 
-                "School registered successfully", 
-                schoolResponse
+                "student registered successfully", 
+                studentResponse
             ));
 
     } catch (error) {
-        logger.error('❌ School registration failed:', { 
+        logger.error('❌ student registration failed:', { 
             error: (error as Error).message,
-            name,
+            firstName,
             email,
+            schoolName,
             countryName
         });
 
         // Handle specific service errors
         if (error instanceof Error) {
-            if (error.message.includes('Country not found')) {
+            if (error.message.includes('Student not found')) {
                 throw new ApiError({
                     statusCode: 404,
-                    message: "Country not found. Please verify the country ID."
+                    message: "Country not found. Please verify the Student ID."
                 });
-            } else if (error.message.includes('Country must be verified')) {
+            } else if (error.message.includes('Student must be verified')) {
                 throw new ApiError({
                     statusCode: 403,
-                    message: "Country must be verified before schools can register"
+                    message: "Student must be verified before students can register"
                 });
             } else if (error.message.includes('Email already registered')) {
                 throw new ApiError({
                     statusCode: 409,
                     message: "This email is already registered"
                 });
-            } else if (error.message.includes('Invalid school levels')) {
+            } else if (error.message.includes('Invalid student levels')) {
                 throw new ApiError({
                     statusCode: 400,
                     message: error.message
@@ -141,7 +138,7 @@ export const registerStudent = asyncHandler(async (req: Request, res: Response) 
                     } else {
                         throw new ApiError({
                             statusCode: 500,
-                            message: "An unexpected error occurred during school registration"
+                            message: "An unexpected error occurred during student registration"
                         });
                     }
                 }
@@ -150,12 +147,12 @@ export const registerStudent = asyncHandler(async (req: Request, res: Response) 
         
 });
 
-export const loginSchool = asyncHandler(async (req: Request, res: Response) => {
+export const loginstudent = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     // validate required fields
     if(!email || !password) {
-        logger.error("School login failed: Email and password are required");
+        logger.error("student login failed: Email and password are required");
         throw new ApiError({ 
             statusCode: 400, 
             message: "Email and password are required" 
@@ -163,32 +160,32 @@ export const loginSchool = asyncHandler(async (req: Request, res: Response) => {
     }
 
     try {
-        const existingSchool = await School.findOne({ email: email.toLowerCase() })
-            .select('+password +refreshToken');
+        const existingStudent = await Student.findOne({ email: email.toLowerCase() })
+            .select('+password +refreshToken')
 
-        if (!existingSchool) {
-            logger.error("School login failed: School not found");
+        if (!existingStudent) {
+            logger.error("student login failed: student not found");
             throw new ApiError({ 
                 statusCode: 404, 
-                message: "School not found" 
+                message: "student not found" 
             });
         }
 
         // Check password
-        const isPasswordValid  = await existingSchool.comparePassword(password);
-            if (!isPasswordValid) {
-                logger.error("School login failed: Invalid password");
-                throw new ApiError({ 
-                    statusCode: 401, 
-                    message: "Invalid password" 
-                });
-            }
+        const isPasswordValid  = await existingStudent.comparePassword(password);
+        if (!isPasswordValid) {
+            logger.error("student login failed: Invalid password");
+            throw new ApiError({ 
+                statusCode: 401, 
+                message: "Invalid password" 
+            });
+        }
         
         // Generate tokens
-        const school = existingSchool as { _id: { toString: () => string } };
+        const student = existingStudent as { _id: { toString: () => string } };
         const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
-            school._id.toString(), 
-            "school"
+            student._id.toString(), 
+            "student"
         );  
 
         // Cookie options
@@ -200,30 +197,32 @@ export const loginSchool = asyncHandler(async (req: Request, res: Response) => {
             maxAge: 60 * 60 * 1000, // 1 hour
         }
 
-        const schoolResponse = {
-            _id: existingSchool._id,
-            name: existingSchool.name,
-            email: existingSchool.email,
-            countryCode: existingSchool.countryCode,
-            registrationNumber: existingSchool.registrationNumber,
-            address: existingSchool.address,
-            createdAt: existingSchool.createdAt,
-            updatedAt: existingSchool.updatedAt,
+        const studentResponse = {
+            _id: existingStudent._id,
+            firstName: existingStudent.firstName,
+            email: existingStudent.email,
+            schoolName: existingStudent.schoolName,
+            countryName: existingStudent.countryName,
+            registrationNumber: existingStudent.registrationNumber,
+            level: existingStudent.level,
+            address: existingStudent.address,
+            createdAt: existingStudent.createdAt,
+            updatedAt: existingStudent.updatedAt,
         }
 
-        logger.info(`✅ School logged in successfully: ${existingSchool.name} - ${existingSchool.registrationNumber}`);
+        logger.info(`✅ student logged in successfully: ${existingStudent.firstName} - ${existingStudent.registrationNumber}`);
         res
             .status(200)
             .cookie("refreshToken", refreshToken, cookieOptions)
             .cookie("accessToken", accessToken, cookieOptions)
             .json(new ApiResponse(
                 200, 
-                "School logged in successfully", 
-                schoolResponse
+                "student logged in successfully", 
+                studentResponse
             ));
 
     } catch (error) {
-        logger.error('❌ School login failed:', {
+        logger.error('❌ student login failed:', {
             error: (error as Error).message,    
             email
         });
@@ -231,9 +230,9 @@ export const loginSchool = asyncHandler(async (req: Request, res: Response) => {
 })
 
 
-export const logoutSchool = asyncHandler(async (req: Request, res: Response) => {
+export const logoutstudent = asyncHandler(async (req: Request, res: Response) => {
     if(!req.user || !req.user._id) {
-        logger.error("School logout failed: User not authenticated");
+        logger.error("student logout failed: User not authenticated");
         throw new ApiError({ 
             statusCode: 401, 
             message: "User not authenticated" 
@@ -241,13 +240,13 @@ export const logoutSchool = asyncHandler(async (req: Request, res: Response) => 
     }
 
     const userId = req.user._id.toString();
-    const school = await School.findById(userId).select('+refreshToken');
+    const student = await Student.findById(userId).select('+refreshToken');
 
-    if(!school) {
-        logger.error("School logout failed: School not found");
+    if(!student) {
+        logger.error("Student logout failed: Student not found");
         throw new ApiError({ 
             statusCode: 404, 
-            message: "School not found" 
+            message: "Student not found" 
         });
     }
 
@@ -264,7 +263,7 @@ export const logoutSchool = asyncHandler(async (req: Request, res: Response) => 
         .clearCookie("accessToken", cookieOptions)
         .json(new ApiResponse(
             200, 
-            "School logged out successfully", 
+            "Student logged out successfully", 
             {}
         ));
 });
@@ -284,12 +283,12 @@ export const refreshAccessToken = asyncHandler(async (req: Request, res: Respons
       try {
         const decoded = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET!) as TokenPayload;
     
-        const country = await School.findById(decoded._id);
+        const country = await Student.findById(decoded._id);
         if (!country || incomingRefreshToken !== country.refreshToken) {
           throw new ApiError({ statusCode: 401, message: "Invalid or expired refresh token" });
         }
     
-        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(decoded._id, "school");
+        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(decoded._id, "student");
     
         const cookieOptions = {
           httpOnly: true,
@@ -309,40 +308,40 @@ export const refreshAccessToken = asyncHandler(async (req: Request, res: Respons
       }
 })
 
-export const checkSchoolInfo = asyncHandler(async (req: Request, res: Response) => {
+export const checkStudentInfo = asyncHandler(async (req: Request, res: Response) => {
   const { name } = req.params;
 
   if (!name?.trim()) {
     throw new ApiError({
       statusCode: 400,
-      message: "School name is required"
+      message: "student name is required"
     });
   }
 
   try {
-    const schoolInfo = await getSchoolInfo(name.trim());
+    const studentInfo = await getStudentInfo(name.trim());
     
     res.status(200).json(new ApiResponse(
       200, 
-      "School information retrieved successfully", 
-      schoolInfo
+      "student information retrieved successfully", 
+      studentInfo
     ));
   } catch (error) {
-    logger.error('❌ Error getting school info:', { 
+    logger.error('❌ Error getting student info:', { 
       error: (error as Error).message,
-      schoolName: name 
+      studentName: name 
     });
 
     if (error instanceof Error && error.message.includes('not found')) {
       throw new ApiError({
         statusCode: 404,
-        message: "School not found in our database"
+        message: "student not found in our database"
       });
     }
 
     throw new ApiError({
       statusCode: 500,
-      message: "Failed to retrieve school information"
+      message: "Failed to retrieve student information"
     });
   }
 });
@@ -362,36 +361,36 @@ export const updatePassword = asyncHandler(async (req: Request, res: Response) =
     throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
   }
 
-  const school = await School.findById(userId);
-  if (!school) {
-    throw new ApiError({ statusCode: 404, message: "School not found" });
+  const student = await student.findById(userId);
+  if (!student) {
+    throw new ApiError({ statusCode: 404, message: "student not found" });
   }
 
-  const isOldPasswordValid = await school.comparePassword(oldPassword);
+  const isOldPasswordValid = await student.comparePassword(oldPassword);
   if (!isOldPasswordValid) {
     throw new ApiError({ statusCode: 401, message: "Old password is incorrect" });
   }
 
-  school.password = newPassword;
-  await school.save();
+  student.password = newPassword;
+  await student.save();
 
   res.status(200).json(new ApiResponse(200, "Password updated successfully", {}));
 });
-export const getSchoolProfile = asyncHandler(async (req: Request, res: Response) => {
+export const getstudentProfile = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user?._id;
   if (!userId) {
     throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
   }
 
-  const school = await School.findById(userId).select('-password -refreshToken');
-  if (!school) {
-    throw new ApiError({ statusCode: 404, message: "School not found" });
+  const student = await student.findById(userId).select('-password -refreshToken');
+  if (!student) {
+    throw new ApiError({ statusCode: 404, message: "student not found" });
   }
 
-  res.status(200).json(new ApiResponse(200, "School profile retrieved successfully", school));
+  res.status(200).json(new ApiResponse(200, "student profile retrieved successfully", student));
 });
 
-export const updateSchoolProfile = asyncHandler(async (req: Request, res: Response) => {
+export const updatestudentProfile = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user?._id;
 
   if (!userId) {
@@ -407,56 +406,56 @@ export const updateSchoolProfile = asyncHandler(async (req: Request, res: Respon
     });
   }
 
-  const school = await School.findById(userId);
+  const student = await student.findById(userId);
 
-  if (!school) {
-    throw new ApiError({ statusCode: 404, message: "School not found" });
+  if (!student) {
+    throw new ApiError({ statusCode: 404, message: "student not found" });
   }
 
   if (name?.trim()) {
-    school.name = name.trim();
+    student.name = name.trim();
   }
 
   if (email?.trim()) {
-    school.email = email.trim().toLowerCase();
+    student.email = email.trim().toLowerCase();
   }
 
-  await school.save();
+  await student.save();
 
-  res.status(200).json(new ApiResponse(200, "School profile updated successfully", school));
+  res.status(200).json(new ApiResponse(200, "student profile updated successfully", student));
 });
 
-export const getAllSchools = asyncHandler(async (req: Request, res: Response) => {
+export const getAllstudents = asyncHandler(async (req: Request, res: Response) => {
   try {
-    const schools = await School.find().select('-password -refreshToken');
+    const students = await student.find().select('-password -refreshToken');
     
-    if (schools.length === 0) {
-      throw new ApiError({ statusCode: 404, message: "No school found" });
+    if (students.length === 0) {
+      throw new ApiError({ statusCode: 404, message: "No student found" });
     }
 
-    res.status(200).json(new ApiResponse(200, "Schools retrieved successfully", schools));
+    res.status(200).json(new ApiResponse(200, "students retrieved successfully", students));
   } catch (error) {
-    logger.error('❌ Error retrieving schools:', { 
+    logger.error('❌ Error retrieving students:', { 
       error: (error as Error).message 
     });
 
     throw new ApiError({
       statusCode: 500,
-      message: "Failed to retrieve schools"
+      message: "Failed to retrieve students"
     });
   }
 });
-export const deleteSchool = asyncHandler(async (req: Request, res: Response) => {
+export const deletestudent = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user?._id;
   if (!userId) {
     throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
   }
 
-  const school = await School.findByIdAndDelete(userId);
-  if (!school) {
-    throw new ApiError({ statusCode: 404, message: "School not found" });
+  const student = await student.findByIdAndDelete(userId);
+  if (!student) {
+    throw new ApiError({ statusCode: 404, message: "student not found" });
   }
 
-  res.status(200).json(new ApiResponse(200, "School deleted successfully", {}));
+  res.status(200).json(new ApiResponse(200, "student deleted successfully", {}));
 });
 

@@ -65,6 +65,7 @@ const registerStudentService = async (data: IStudentRegistration) => {
             gender,
             countryId: country._id,
             countryCode: country.countryCode,
+            countryName,
             dateOfBirth,
             level: levelToUse,
             schoolId: school._id,
