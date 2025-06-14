@@ -131,40 +131,18 @@ const registerStudentService = async (data: IStudentRegistration) => {
     }
 };
 
-const updateStudentLevel = async(userId: string, data: IStudentDocument) => {
-
-    const { level } = data;
-
-    const existingStudent  = await Student.findOne({ userId }).populate('firstName lastName level') as (IStudentDocument & Document) | null;
-
-    if (!existingStudent) {
-        throw new ApiError({ statusCode: 404, message: 'Student not found' });
-    }
-
-    if (existingStudent.level === level) {
-        throw new ApiError({ statusCode: 401, message: 'select new level'})
-    }
-
-    existingStudent.level = level!
-    await existingStudent.save();
-
-    return {
-        student: existingStudent
-    }
-}
-
-const getStudentInfo = async (registrationNumber: string) => {
+const getIndividualInfo = async (registrationNumber: string) => {
   try {
-    const student = await Student.findOne({ registrationNumber })
+    const individual = await Individual.findOne({ registrationNumber })
       .select('-password');
 
-    if (!student) {
-      throw new Error('Student not found');
+    if (!individual) {
+      throw new Error('individual not found');
     }
 
-    return student;
+    return individual;
   } catch (error) {
-    logger.error('❌ Error in getStudentInfo', { 
+    logger.error('❌ Error in getIndividualInfo', { 
       error: (error as Error).message,
       registrationNumber
     });
@@ -173,6 +151,5 @@ const getStudentInfo = async (registrationNumber: string) => {
 };
 export {
     registerStudentService,
-    updateStudentLevel,
-    getStudentInfo
+    getIndividualInfo
 }
