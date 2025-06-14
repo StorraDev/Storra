@@ -148,7 +148,7 @@ export const registerStudent = asyncHandler(async (req: Request, res: Response) 
         
 });
 
-export const loginstudent = asyncHandler(async (req: Request, res: Response) => {
+export const loginStudent = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     // validate required fields
@@ -231,7 +231,7 @@ export const loginstudent = asyncHandler(async (req: Request, res: Response) => 
 })
 
 
-export const logoutstudent = asyncHandler(async (req: Request, res: Response) => {
+export const logoutStudent = asyncHandler(async (req: Request, res: Response) => {
     if(!req.user || !req.user._id) {
         logger.error("student logout failed: User not authenticated");
         throw new ApiError({ 

@@ -1,5 +1,6 @@
 import { Country } from '../Country/countryModel';
 import { School } from '../School/schoolModel';
+import { Student } from '../Student/studentModel';
 import { ApiError } from '../utils/ApiError';
 import { asyncHandler } from '../utils/AsyncHandler';
 import jwt from 'jsonwebtoken';
@@ -62,7 +63,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     const modelMap = {
       country: Country,
       school: School,
-      // student: Student,
+      student: Student,
       // individual: Individual
     } as const;
 
