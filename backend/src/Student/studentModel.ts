@@ -80,6 +80,12 @@ const StudentSchema = new Schema<IStudentDocuments, StudentModel, IStudentMethod
         required: [true, 'School ID is required'],
         index: true
     },
+    countryId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Country',
+        required: [true, 'Country ID is required'],
+        index: true
+    },
     level: {
         type: String,
         enum: ['primary', 'secondary', 'tertiary'],

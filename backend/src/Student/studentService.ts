@@ -145,7 +145,27 @@ const updateStudentLevel = async(userId: string, data: IStudentDocument) => {
         student: existingStudent
     }
 }
+
+const getStudentInfo = async (registrationNumber: string) => {
+  try {
+    const student = await Student.findOne({ registrationNumber })
+      .select('-password');
+
+    if (!student) {
+      throw new Error('Student not found');
+    }
+
+    return student;
+  } catch (error) {
+    logger.error('❌ Error in getStudentInfo', { 
+      error: (error as Error).message,
+      registrationNumber
+    });
+    throw error;
+  }
+};
 export {
     registerStudentService,
-    updateStudentLevel
+    updateStudentLevel,
+    getStudentInfo
 }

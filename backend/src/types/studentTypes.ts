@@ -29,6 +29,7 @@ export interface IStudentDocument {
     age: number; // Virtual field
     gender: 'male' | 'female' | 'other';
     schoolId: mongoose.Types.ObjectId;
+    countryId: mongoose.Types.ObjectId;
     level: SchoolLevel;
     registrationNumber: string;
     parentEmail?: string;

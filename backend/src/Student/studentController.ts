@@ -6,7 +6,8 @@ import { ApiError } from '../utils/ApiError';
 import { generateAccessAndRefreshToken } from '../utils/generateTokens';
 import { logger } from '../utils/logger';
 import { 
-    registerStudentService 
+    registerStudentService,
+    getStudentInfo
 } from './studentService';
 import jwt from 'jsonwebtoken';
 
@@ -309,18 +310,17 @@ export const refreshAccessToken = asyncHandler(async (req: Request, res: Respons
 })
 
 export const checkStudentInfo = asyncHandler(async (req: Request, res: Response) => {
-  const { name } = req.params;
+  const { registrationNumber } = req.params;
 
-  if (!name?.trim()) {
+  if (!registrationNumber) {
     throw new ApiError({
       statusCode: 400,
-      message: "student name is required"
+      message: "student registration number is required"
     });
   }
 
   try {
-    const studentInfo = await getStudentInfo(name.trim());
-    
+    const studentInfo = await getStudentInfo(registrationNumber.trim());
     res.status(200).json(new ApiResponse(
       200, 
       "student information retrieved successfully", 
@@ -329,7 +329,7 @@ export const checkStudentInfo = asyncHandler(async (req: Request, res: Response)
   } catch (error) {
     logger.error('❌ Error getting student info:', { 
       error: (error as Error).message,
-      studentName: name 
+      registrationNumber
     });
 
     if (error instanceof Error && error.message.includes('not found')) {
@@ -361,7 +361,7 @@ export const updatePassword = asyncHandler(async (req: Request, res: Response) =
     throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
   }
 
-  const student = await student.findById(userId);
+  const student = await Student.findById(userId);
   if (!student) {
     throw new ApiError({ statusCode: 404, message: "student not found" });
   }
@@ -376,13 +376,13 @@ export const updatePassword = asyncHandler(async (req: Request, res: Response) =
 
   res.status(200).json(new ApiResponse(200, "Password updated successfully", {}));
 });
-export const getstudentProfile = asyncHandler(async (req: Request, res: Response) => {
+export const getStudentProfile = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user?._id;
   if (!userId) {
     throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
   }
 
-  const student = await student.findById(userId).select('-password -refreshToken');
+  const student = await Student.findById(userId).select('-password -refreshToken');
   if (!student) {
     throw new ApiError({ statusCode: 404, message: "student not found" });
   }
@@ -390,30 +390,34 @@ export const getstudentProfile = asyncHandler(async (req: Request, res: Response
   res.status(200).json(new ApiResponse(200, "student profile retrieved successfully", student));
 });
 
-export const updatestudentProfile = asyncHandler(async (req: Request, res: Response) => {
+export const updateStudentProfile = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user?._id;
 
   if (!userId) {
     throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
   }
 
-  const { name, email } = req.body;
+  const { firstName, lastName, email } = req.body;
 
-  if (!name?.trim() && !email?.trim()) {
+  if (!firstName?.trim() && !lastName?.trim() && !email?.trim()) {
     throw new ApiError({
       statusCode: 400,
       message: "At least one of name or email is required to update"
     });
   }
 
-  const student = await student.findById(userId);
+  const student = await Student.findById(userId);
 
   if (!student) {
     throw new ApiError({ statusCode: 404, message: "student not found" });
   }
 
-  if (name?.trim()) {
-    student.name = name.trim();
+  if (firstName?.trim()) {
+    student.firstName = firstName.trim();
+  }
+
+  if(lastName?.trim()) {
+    student.lastName = lastName.trim();
   }
 
   if (email?.trim()) {
@@ -423,39 +427,5 @@ export const updatestudentProfile = asyncHandler(async (req: Request, res: Respo
   await student.save();
 
   res.status(200).json(new ApiResponse(200, "student profile updated successfully", student));
-});
-
-export const getAllstudents = asyncHandler(async (req: Request, res: Response) => {
-  try {
-    const students = await student.find().select('-password -refreshToken');
-    
-    if (students.length === 0) {
-      throw new ApiError({ statusCode: 404, message: "No student found" });
-    }
-
-    res.status(200).json(new ApiResponse(200, "students retrieved successfully", students));
-  } catch (error) {
-    logger.error('❌ Error retrieving students:', { 
-      error: (error as Error).message 
-    });
-
-    throw new ApiError({
-      statusCode: 500,
-      message: "Failed to retrieve students"
-    });
-  }
-});
-export const deletestudent = asyncHandler(async (req: Request, res: Response) => {
-  const userId = req.user?._id;
-  if (!userId) {
-    throw new ApiError({ statusCode: 401, message: "Unauthorized - User not found" });
-  }
-
-  const student = await student.findByIdAndDelete(userId);
-  if (!student) {
-    throw new ApiError({ statusCode: 404, message: "student not found" });
-  }
-
-  res.status(200).json(new ApiResponse(200, "student deleted successfully", {}));
 });
 
