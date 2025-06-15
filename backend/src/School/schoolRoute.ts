@@ -13,7 +13,7 @@ schoolRouter.post('/logoutschool', verifyJWT, verifySchoolJWT, logoutSchool);
 schoolRouter.post('/refreshaccesstoken', verifyJWT, verifySchoolJWT, refreshAccessToken);
 schoolRouter.put('/updatepassword', verifyJWT, verifySchoolJWT, updatePassword);
 schoolRouter.put('/updateschoolprofile', verifyJWT, verifySchoolJWT, updateSchoolProfile);
-schoolRouter.post('/deleteschool', verifyJWT, verifySchoolJWT, deleteSchool);
+schoolRouter.delete('/deleteschool', verifyJWT, verifySchoolJWT, deleteSchool);
 schoolRouter.get('/all', verifyJWT, verifySchoolJWT, getAllStudents);
 schoolRouter.get('/profile', verifyJWT, verifySchoolJWT, getSchoolProfile);
 schoolRouter.get('/info/:name', verifyJWT, verifySchoolJWT, checkSchoolInfo);

@@ -434,8 +434,11 @@ export const updateSchoolProfile = asyncHandler(async (req: Request, res: Respon
 
 export const getAllStudents = asyncHandler(async (req: Request, res: Response) => {
   try {
+
     const schoolId = req.user?._id;
 
+    console.log("REQ USER", req.user);
+        
     if (!schoolId) {
       throw new ApiError({ statusCode: 401, message: "Unauthorized - School not found" });
     }
@@ -443,15 +446,17 @@ export const getAllStudents = asyncHandler(async (req: Request, res: Response) =
     const students = await Student.find({ schoolId })
       .select('firstName lastName level dateOfBirth registrationNumber')
       .lean();
+    
+    if (!students || students.length === 0) {
+      return res.status(200).json(new ApiResponse(200, "No student has been registered yet", []));
+    }
 
     const allStudents = students.map(student => ({
       ...student,
       age: getAge(student.dateOfBirth)
     }));
 
-    if (allStudents.length === 0) {
-      throw new ApiError({ statusCode: 404, message: "No student found" });
-    }
+    
 
     res.status(200).json(new ApiResponse(200, "All students retrieved successfully", allStudents));
   } catch (error) {
