@@ -3,8 +3,9 @@ import { app } from "./app.js";
 import connectDB from "./src/config/db/db.js";
 import { connectRedis} from './src/config/redis/redis';
 import { initCountryCounter } from './src/config/redis/redisCountryCounter';
-import { initSchoolCounter, getNextSchoolCounter } from './src/config/redis/redisSchoolCounter';
-import {initStudentCounter, getNextStudentCounter} from './src/config/redis/redisStudentCounter';
+import { initSchoolCounter } from './src/config/redis/redisSchoolCounter';
+import { initStudentCounter } from './src/config/redis/redisStudentCounter';
+import { initIndividualCounter } from './src/config/redis/redisIndividualCounter'
 import { logger } from "./src/utils/logger.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -18,28 +19,25 @@ const PORT = process.env.PORT || 7001;
 
 const startup = async () => {
   try {
-    // 1. First connect to MongoDB
+
     await connectDB();
     logger.info('✅ MongoDB connected');
 
-    // 2. Then connect to Redis
     await connectRedis();
     logger.info('✅ Redis connected');
 
-    // 3. Only then initialize counters
     await initCountryCounter();
     logger.info('✅ Country counter initialized');
 
     await initSchoolCounter();
     logger.info('✅ School counter initialized');
 
-    // await getNextSchoolCounter('yourCountryRegistrationNumber');
-    // logger.info('✅ School counter ready for use');
-
     await initStudentCounter();
     logger.info('✅ Student counter initialized');
 
-    // 4. Start the server
+    await initIndividualCounter();
+    logger.info('✅ Individual counter initialized')
+
     app.listen(PORT, () => {
       logger.info(`🚀 Server running on port ${PORT}`);
 
@@ -50,8 +48,6 @@ const startup = async () => {
       REFRESH_TOKEN_EXPIRY: process.env.REFRESH_TOKEN_EXPIRY
     });
     });
-
-  // Add this to your main app file to verify env loading
   
 
   } catch (error) {
@@ -63,5 +59,4 @@ const startup = async () => {
   }
 };
 
-// Start the application
 startup();
