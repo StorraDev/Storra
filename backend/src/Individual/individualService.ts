@@ -89,7 +89,7 @@ const registerIndividualService = async (data: IIndividualRegistration) => {
         logger.info(`✅ Student registered: ${newIndividual.firstName} ${newIndividual.lastName} (${registrationNumber}) under ${populatedCountry.name}`);
 
         return {
-            student: individualUnderCountry,
+            individual: individualUnderCountry,
             country: populatedCountry,
             
         };
