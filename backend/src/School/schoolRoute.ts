@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { registerSchool, loginSchool, logoutSchool, refreshAccessToken, updatePassword, updateSchoolProfile, deleteSchool, getAllSchools, getSchoolProfile, checkSchoolInfo } from './schoolController';
+import { registerSchool, loginSchool, logoutSchool, refreshAccessToken, updatePassword, updateSchoolProfile, deleteSchool, getAllStudents, getSchoolProfile, checkSchoolInfo } from './schoolController';
 import { schoolRegisterValidator } from '../middlewares/validators';
 import { verifySchoolJWT, verifyJWT } from '../middlewares/authMiddleWare';
 
@@ -14,7 +14,7 @@ schoolRouter.post('/refreshaccesstoken', verifyJWT, verifySchoolJWT, refreshAcce
 schoolRouter.put('/updatepassword', verifyJWT, verifySchoolJWT, updatePassword);
 schoolRouter.put('/updateschoolprofile', verifyJWT, verifySchoolJWT, updateSchoolProfile);
 schoolRouter.post('/deleteschool', verifyJWT, verifySchoolJWT, deleteSchool);
-schoolRouter.get('/all', verifyJWT, verifySchoolJWT, getAllSchools);
+schoolRouter.get('/all', verifyJWT, verifySchoolJWT, getAllStudents);
 schoolRouter.get('/profile', verifyJWT, verifySchoolJWT, getSchoolProfile);
 schoolRouter.get('/info/:name', verifyJWT, verifySchoolJWT, checkSchoolInfo);
 

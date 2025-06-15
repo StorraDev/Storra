@@ -92,9 +92,9 @@ const registerSchoolService = async (data: ISchoolRegistration) => {
 };
 
 
-const getSchoolInfo = async (schoolId: string) => {
+const getSchoolInfo = async (name: string) => {
     try {
-        const school = await School.findById(schoolId)
+        const school = await School.findOne({ name })
             .populate('countryId', 'name countryCode registrationNumber')
             .select('-password');
 
@@ -120,8 +120,7 @@ const getSchoolInfo = async (schoolId: string) => {
 
     } catch (error) {
         logger.error('❌ Error in getSchoolInfo', { 
-            error: (error as Error).message,
-            schoolId
+            error: (error as Error).message
         });
         throw error;
     }

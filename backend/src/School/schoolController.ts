@@ -2,6 +2,7 @@
 import { asyncHandler } from '../utils/AsyncHandler';
 import { Request, Response } from 'express';
 import { School } from './schoolModel';
+import { Student } from '../Student/studentModel';
 import { ApiResponse } from '../utils/ApiResponse';
 import { ApiError } from '../utils/ApiError';
 import { generateAccessAndRefreshToken } from '../utils/generateTokens';
@@ -10,9 +11,9 @@ import {
     registerSchoolService, 
     getSchoolInfo, 
     updateSchoolSubscription, 
-    getSchoolsByCountry 
 } from './schoolService';
 import jwt from 'jsonwebtoken';
+import { getAge } from '../utils/getAge';
 
 
 export const registerSchool = asyncHandler(async (req: Request, res: Response) => {
@@ -431,23 +432,36 @@ export const updateSchoolProfile = asyncHandler(async (req: Request, res: Respon
   res.status(200).json(new ApiResponse(200, "School profile updated successfully", school));
 });
 
-export const getAllSchools = asyncHandler(async (req: Request, res: Response) => {
+export const getAllStudents = asyncHandler(async (req: Request, res: Response) => {
   try {
-    const schools = await School.find().select('-password -refreshToken');
-    
-    if (schools.length === 0) {
-      throw new ApiError({ statusCode: 404, message: "No school found" });
+    const schoolId = req.user?._id;
+
+    if (!schoolId) {
+      throw new ApiError({ statusCode: 401, message: "Unauthorized - School not found" });
     }
 
-    res.status(200).json(new ApiResponse(200, "Schools retrieved successfully", schools));
+    const students = await Student.find({ schoolId })
+      .select('firstName lastName level dateOfBirth registrationNumber')
+      .lean();
+
+    const allStudents = students.map(student => ({
+      ...student,
+      age: getAge(student.dateOfBirth)
+    }));
+
+    if (allStudents.length === 0) {
+      throw new ApiError({ statusCode: 404, message: "No student found" });
+    }
+
+    res.status(200).json(new ApiResponse(200, "All students retrieved successfully", allStudents));
   } catch (error) {
-    logger.error('❌ Error retrieving schools:', { 
+    logger.error('❌ Error retrieving students:', { 
       error: (error as Error).message 
     });
 
     throw new ApiError({
       statusCode: 500,
-      message: "Failed to retrieve schools"
+      message: "Failed to retrieve students"
     });
   }
 });

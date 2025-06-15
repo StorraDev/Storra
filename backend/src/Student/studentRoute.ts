@@ -5,8 +5,6 @@ import { verifyStudentJWT, verifyJWT } from '../middlewares/authMiddleWare';
 
 const studentRouter = Router();
 
-// Register student route
-
 studentRouter.post('/registerstudent', studentRegisterValidator, registerStudent);
 studentRouter.post('/loginstudent', loginStudent);
 studentRouter.post('/logoutstudent', verifyJWT, verifyStudentJWT, logoutStudent);
