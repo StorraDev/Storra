@@ -12,7 +12,7 @@ studentRouter.post('/refreshaccesstoken', verifyJWT, verifyStudentJWT, refreshAc
 studentRouter.put('/updatepassword', verifyJWT, verifyStudentJWT, updatePassword);
 studentRouter.put('/updatestudentprofile', verifyJWT, verifyStudentJWT, updateStudentProfile);
 studentRouter.get('/profile', verifyJWT, verifyStudentJWT, getStudentProfile);
-studentRouter.get('/info/:name', verifyJWT, verifyStudentJWT, checkStudentInfo);
+studentRouter.get('/info', verifyJWT, verifyStudentJWT, checkStudentInfo);
 
 
 export default studentRouter;

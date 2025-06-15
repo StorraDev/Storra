@@ -311,9 +311,9 @@ export const refreshAccessToken = asyncHandler(async (req: Request, res: Respons
 })
 
 export const checkStudentInfo = asyncHandler(async (req: Request, res: Response) => {
-  const { registrationNumber } = req.params;
+  const { registrationNumber } = req.query;
 
-  if (!registrationNumber) {
+  if (!registrationNumber || typeof registrationNumber !== 'string') {
     throw new ApiError({
       statusCode: 400,
       message: "student registration number is required"
@@ -403,7 +403,7 @@ export const updateStudentProfile = asyncHandler(async (req: Request, res: Respo
   if (!firstName?.trim() && !lastName?.trim() && !email?.trim()) {
     throw new ApiError({
       statusCode: 400,
-      message: "At least one of name or email is required to update"
+      message: "At least one of names or email is required to update"
     });
   }
 
