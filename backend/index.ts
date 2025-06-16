@@ -6,6 +6,7 @@ import { initCountryCounter } from './src/config/redis/redisCountryCounter';
 import { initSchoolCounter } from './src/config/redis/redisSchoolCounter';
 import { initStudentCounter } from './src/config/redis/redisStudentCounter';
 import { initIndividualCounter, checkCounterHealth } from './src/config/redis/redisIndividualCounter'
+import { initChildCounter } from "./src/config/redis/redisChildCounter";
 import { logger } from "./src/utils/logger.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -38,6 +39,9 @@ const startup = async () => {
     await checkCounterHealth();
     
     await initIndividualCounter();
+    logger.info('✅ Individual counter initialized')
+
+    await initChildCounter();
     logger.info('✅ Individual counter initialized')
 
     app.listen(PORT, () => {

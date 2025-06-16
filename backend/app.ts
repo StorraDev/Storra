@@ -20,6 +20,6 @@ app.use("/api/v1/country", countryRouter);
 app.use("/api/v1/school", schoolRouter);
 app.use("/api/v1/student", studentRouter)
 app.use("/api/v1/individual", individualRouter)
-app.use("/api/v1", parentRouter)
+app.use("/api/v1/parent", parentRouter)
 app.use( errorHandler )
 export { app };

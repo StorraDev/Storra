@@ -58,7 +58,7 @@ const registerParentService = async (data: IParentRegistration) => {
 
         return {
             parent: populatedParent,
-            country: populatedCountry,
+            countryName: populatedCountry.name,
         };
 
     } catch (error) {

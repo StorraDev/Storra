@@ -1,5 +1,6 @@
 // Parent/parentController.ts
 import { Request, Response } from 'express';
+import { Parent } from './parentModel'
 import { 
     registerParentService, 
     registerChildService, 
@@ -77,7 +78,7 @@ const registerParent = asyncHandler(async (req: Request, res: Response) => {
                 'Parent registered successfully',
                 {
                     parent: result.parent,
-                    country: result.country,
+                    countryName: result.countryName,
                     accessToken,
                     refreshToken
                 }
@@ -272,9 +273,7 @@ const loginParent = asyncHandler(async (req: Request, res: Response) => {
     }
 
     try {
-        const { Parent } = require('./parentModel');
-        
-        // Find parent by email
+       
         const parent = await Parent.findOne({ email: email.toLowerCase() })
             .populate('countryId')
             .select('+password');
@@ -297,7 +296,7 @@ const loginParent = asyncHandler(async (req: Request, res: Response) => {
 
         // Generate tokens
         const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
-            parent._id.toString(),
+            (parent._id as string).toString(),
             'parent'
         );
 
@@ -314,8 +313,8 @@ const loginParent = asyncHandler(async (req: Request, res: Response) => {
 
         // Remove sensitive data
         const parentData = parent.toObject();
-        delete parentData.password;
-        delete parentData.refreshToken;
+        delete (parentData as any).password;
+        delete (parentData as any).refreshToken;
 
         logger.info(`✅ Parent login successful: ${parent.email}`);
 

@@ -14,8 +14,8 @@ import { parentRegisterValidator, childRegisterValidator } from '../middlewares/
 const parentRouter = Router();
 
 
-parentRouter.post('/register', parentRegisterValidator, registerParent);
-parentRouter.post('/login', loginParent);
+parentRouter.post('/registerparent', parentRegisterValidator, registerParent);
+parentRouter.post('/loginparent', loginParent);
 parentRouter.post('/logout', verifyJWT, verifyParentJWT, logoutParent);
 
 parentRouter.post('/children', verifyJWT, verifyParentJWT, childRegisterValidator, registerChild);
