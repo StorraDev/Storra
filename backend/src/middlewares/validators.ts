@@ -125,4 +125,4 @@ const childRegisterValidator = async (req: Request, res: Response, next: NextFun
     res.status(400).json({ error: err.details.map((e: any) => e.message) });
   }
 }
-export { countryRegisterValidator, schoolRegisterValidator, studentRegisterValidator, individualRegisterValidator };
+export { countryRegisterValidator, schoolRegisterValidator, studentRegisterValidator, individualRegisterValidator, parentRegisterValidator, childRegisterValidator };
