@@ -1,3 +1,9 @@
 {
-  "cSpell.words": ["healthcheck", "STORRA"]
+  "cSpell.words": [
+    "healthcheck",
+    "logincountry",
+    "registercountry",
+    "STORRA",
+    "updateschoolprofile"
+  ]
 }

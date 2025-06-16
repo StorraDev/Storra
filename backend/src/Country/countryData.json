@@ -1,0 +1,1167 @@
+
+[
+  {
+    "name": "Afghanistan",
+    "officialName": "Islamic Republic of Afghanistan",
+    "alpha2": "AF",
+    "alpha3": "AFG"
+  },
+  {
+    "name": "Albania",
+    "officialName": "Republic of Albania",
+    "alpha2": "AL",
+    "alpha3": "ALB"
+  },
+  {
+    "name": "Algeria",
+    "officialName": "People's Democratic Republic of Algeria",
+    "alpha2": "DZ",
+    "alpha3": "DZA"
+  },
+  {
+    "name": "Andorra",
+    "officialName": "Principality of Andorra",
+    "alpha2": "AD",
+    "alpha3": "AND"
+  },
+  {
+    "name": "Angola",
+    "officialName": "Republic of Angola",
+    "alpha2": "AO",
+    "alpha3": "AGO"
+  },
+  {
+    "name": "Antigua and Barbuda",
+    "officialName": "Antigua and Barbuda",
+    "alpha2": "AG",
+    "alpha3": "ATG"
+  },
+  {
+    "name": "Argentina",
+    "officialName": "Argentine Republic",
+    "alpha2": "AR",
+    "alpha3": "ARG"
+  },
+  {
+    "name": "Armenia",
+    "officialName": "Republic of Armenia",
+    "alpha2": "AM",
+    "alpha3": "ARM"
+  },
+  {
+    "name": "Australia",
+    "officialName": "Commonwealth of Australia",
+    "alpha2": "AU",
+    "alpha3": "AUS"
+  },
+  {
+    "name": "Austria",
+    "officialName": "Republic of Austria",
+    "alpha2": "AT",
+    "alpha3": "AUT"
+  },
+  {
+    "name": "Azerbaijan",
+    "officialName": "Republic of Azerbaijan",
+    "alpha2": "AZ",
+    "alpha3": "AZE"
+  },
+  {
+    "name": "Bahamas",
+    "officialName": "Commonwealth of The Bahamas",
+    "alpha2": "BS",
+    "alpha3": "BHS"
+  },
+  {
+    "name": "Bahrain",
+    "officialName": "Kingdom of Bahrain",
+    "alpha2": "BH",
+    "alpha3": "BHR"
+  },
+  {
+    "name": "Bangladesh",
+    "officialName": "People's Republic of Bangladesh",
+    "alpha2": "BD",
+    "alpha3": "BGD"
+  },
+  {
+    "name": "Barbados",
+    "officialName": "Barbados",
+    "alpha2": "BB",
+    "alpha3": "BRB"
+  },
+  {
+    "name": "Belarus",
+    "officialName": "Republic of Belarus",
+    "alpha2": "BY",
+    "alpha3": "BLR"
+  },
+  {
+    "name": "Belgium",
+    "officialName": "Kingdom of Belgium",
+    "alpha2": "BE",
+    "alpha3": "BEL"
+  },
+  {
+    "name": "Belize",
+    "officialName": "Belize",
+    "alpha2": "BZ",
+    "alpha3": "BLZ"
+  },
+  {
+    "name": "Benin",
+    "officialName": "Republic of Benin",
+    "alpha2": "BJ",
+    "alpha3": "BEN"
+  },
+  {
+    "name": "Bhutan",
+    "officialName": "Kingdom of Bhutan",
+    "alpha2": "BT",
+    "alpha3": "BTN"
+  },
+  {
+    "name": "Bolivia",
+    "officialName": "Plurinational State of Bolivia",
+    "alpha2": "BO",
+    "alpha3": "BOL"
+  },
+  {
+    "name": "Bosnia and Herzegovina",
+    "officialName": "Bosnia and Herzegovina",
+    "alpha2": "BA",
+    "alpha3": "BIH"
+  },
+  {
+    "name": "Botswana",
+    "officialName": "Republic of Botswana",
+    "alpha2": "BW",
+    "alpha3": "BWA"
+  },
+  {
+    "name": "Brazil",
+    "officialName": "Federative Republic of Brazil",
+    "alpha2": "BR",
+    "alpha3": "BRA"
+  },
+  {
+    "name": "Brunei",
+    "officialName": "Nation of Brunei, the Abode of Peace",
+    "alpha2": "BN",
+    "alpha3": "BRN"
+  },
+  {
+    "name": "Bulgaria",
+    "officialName": "Republic of Bulgaria",
+    "alpha2": "BG",
+    "alpha3": "BGR"
+  },
+  {
+    "name": "Burkina Faso",
+    "officialName": "Burkina Faso",
+    "alpha2": "BF",
+    "alpha3": "BFA"
+  },
+  {
+    "name": "Burundi",
+    "officialName": "Republic of Burundi",
+    "alpha2": "BI",
+    "alpha3": "BDI"
+  },
+  {
+    "name": "Cabo Verde",
+    "officialName": "Republic of Cabo Verde",
+    "alpha2": "CV",
+    "alpha3": "CPV"
+  },
+  {
+    "name": "Cambodia",
+    "officialName": "Kingdom of Cambodia",
+    "alpha2": "KH",
+    "alpha3": "KHM"
+  },
+  {
+    "name": "Cameroon",
+    "officialName": "Republic of Cameroon",
+    "alpha2": "CM",
+    "alpha3": "CMR"
+  },
+  {
+    "name": "Canada",
+    "officialName": "Canada",
+    "alpha2": "CA",
+    "alpha3": "CAN"
+  },
+  {
+    "name": "Central African Republic",
+    "officialName": "Central African Republic",
+    "alpha2": "CF",
+    "alpha3": "CAF"
+  },
+  {
+    "name": "Chad",
+    "officialName": "Republic of Chad",
+    "alpha2": "TD",
+    "alpha3": "TCD"
+  },
+  {
+    "name": "Chile",
+    "officialName": "Republic of Chile",
+    "alpha2": "CL",
+    "alpha3": "CHL"
+  },
+  {
+    "name": "China",
+    "officialName": "People's Republic of China",
+    "alpha2": "CN",
+    "alpha3": "CHN"
+  },
+  {
+    "name": "Colombia",
+    "officialName": "Republic of Colombia",
+    "alpha2": "CO",
+    "alpha3": "COL"
+  },
+  {
+    "name": "Comoros",
+    "officialName": "Union of the Comoros",
+    "alpha2": "KM",
+    "alpha3": "COM"
+  },
+  {
+    "name": "Congo (Congo-Brazzaville)",
+    "officialName": "Republic of the Congo",
+    "alpha2": "CG",
+    "alpha3": "COG"
+  },
+  {
+    "name": "Costa Rica",
+    "officialName": "Republic of Costa Rica",
+    "alpha2": "CR",
+    "alpha3": "CRI"
+  },
+  {
+    "name": "Croatia",
+    "officialName": "Republic of Croatia",
+    "alpha2": "HR",
+    "alpha3": "HRV"
+  },
+  {
+    "name": "Cuba",
+    "officialName": "Republic of Cuba",
+    "alpha2": "CU",
+    "alpha3": "CUB"
+  },
+  {
+    "name": "Cyprus",
+    "officialName": "Republic of Cyprus",
+    "alpha2": "CY",
+    "alpha3": "CYP"
+  },
+  {
+    "name": "Czechia (Czech Republic)",
+    "officialName": "Czech Republic",
+    "alpha2": "CZ",
+    "alpha3": "CZE"
+  },
+  {
+    "name": "Democratic Republic of the Congo",
+    "officialName": "Democratic Republic of the Congo",
+    "alpha2": "CD",
+    "alpha3": "COD"
+  },
+  {
+    "name": "Denmark",
+    "officialName": "Kingdom of Denmark",
+    "alpha2": "DK",
+    "alpha3": "DNK"
+  },
+  {
+    "name": "Djibouti",
+    "officialName": "Republic of Djibouti",
+    "alpha2": "DJ",
+    "alpha3": "DJI"
+  },
+  {
+    "name": "Dominica",
+    "officialName": "Commonwealth of Dominica",
+    "alpha2": "DM",
+    "alpha3": "DMA"
+  },
+  {
+    "name": "Dominican Republic",
+    "officialName": "Dominican Republic",
+    "alpha2": "DO",
+    "alpha3": "DOM"
+  },
+  {
+    "name": "Ecuador",
+    "officialName": "Republic of Ecuador",
+    "alpha2": "EC",
+    "alpha3": "ECU"
+  },
+  {
+    "name": "Egypt",
+    "officialName": "Arab Republic of Egypt",
+    "alpha2": "EG",
+    "alpha3": "EGY"
+  },
+  {
+    "name": "El Salvador",
+    "officialName": "Republic of El Salvador",
+    "alpha2": "SV",
+    "alpha3": "SLV"
+  },
+  {
+    "name": "Equatorial Guinea",
+    "officialName": "Republic of Equatorial Guinea",
+    "alpha2": "GQ",
+    "alpha3": "GNQ"
+  },
+  {
+    "name": "Eritrea",
+    "officialName": "State of Eritrea",
+    "alpha2": "ER",
+    "alpha3": "ERI"
+  },
+  {
+    "name": "Estonia",
+    "officialName": "Republic of Estonia",
+    "alpha2": "EE",
+    "alpha3": "EST"
+  },
+  {
+    "name": "Eswatini",
+    "officialName": "Kingdom of Eswatini",
+    "alpha2": "SZ",
+    "alpha3": "SWZ"
+  },
+  {
+    "name": "Ethiopia",
+    "officialName": "Federal Democratic Republic of Ethiopia",
+    "alpha2": "ET",
+    "alpha3": "ETH"
+  },
+  {
+    "name": "Fiji",
+    "officialName": "Republic of Fiji",
+    "alpha2": "FJ",
+    "alpha3": "FJI"
+  },
+  {
+    "name": "Finland",
+    "officialName": "Republic of Finland",
+    "alpha2": "FI",
+    "alpha3": "FIN"
+  },
+  {
+    "name": "France",
+    "officialName": "French Republic",
+    "alpha2": "FR",
+    "alpha3": "FRA"
+  },
+  {
+    "name": "Gabon",
+    "officialName": "Gabonese Republic",
+    "alpha2": "GA",
+    "alpha3": "GAB"
+  },
+  {
+    "name": "Gambia",
+    "officialName": "Republic of The Gambia",
+    "alpha2": "GM",
+    "alpha3": "GMB"
+  },
+  {
+    "name": "Georgia",
+    "officialName": "Georgia",
+    "alpha2": "GE",
+    "alpha3": "GEO"
+  },
+  {
+    "name": "Germany",
+    "officialName": "Federal Republic of Germany",
+    "alpha2": "DE",
+    "alpha3": "DEU"
+  },
+  {
+    "name": "Ghana",
+    "officialName": "Republic of Ghana",
+    "alpha2": "GH",
+    "alpha3": "GHA"
+  },
+  {
+    "name": "Greece",
+    "officialName": "Hellenic Republic",
+    "alpha2": "GR",
+    "alpha3": "GRC"
+  },
+  {
+    "name": "Grenada",
+    "officialName": "Grenada",
+    "alpha2": "GD",
+    "alpha3": "GRD"
+  },
+  {
+    "name": "Guatemala",
+    "officialName": "Republic of Guatemala",
+    "alpha2": "GT",
+    "alpha3": "GTM"
+  },
+  {
+    "name": "Guinea",
+    "officialName": "Republic of Guinea",
+    "alpha2": "GN",
+    "alpha3": "GIN"
+  },
+  {
+    "name": "Guinea-Bissau",
+    "officialName": "Republic of Guinea-Bissau",
+    "alpha2": "GW",
+    "alpha3": "GNB"
+  },
+  {
+    "name": "Guyana",
+    "officialName": "Co-operative Republic of Guyana",
+    "alpha2": "GY",
+    "alpha3": "GUY"
+  },
+  {
+    "name": "Haiti",
+    "officialName": "Republic of Haiti",
+    "alpha2": "HT",
+    "alpha3": "HTI"
+  },
+  {
+    "name": "Honduras",
+    "officialName": "Republic of Honduras",
+    "alpha2": "HN",
+    "alpha3": "HND"
+  },
+  {
+    "name": "Hungary",
+    "officialName": "Hungary",
+    "alpha2": "HU",
+    "alpha3": "HUN"
+  },
+  {
+    "name": "Iceland",
+    "officialName": "Republic of Iceland",
+    "alpha2": "IS",
+    "alpha3": "ISL"
+  },
+  {
+    "name": "India",
+    "officialName": "Republic of India",
+    "alpha2": "IN",
+    "alpha3": "IND"
+  },
+  {
+    "name": "Indonesia",
+    "officialName": "Republic of Indonesia",
+    "alpha2": "ID",
+    "alpha3": "IDN"
+  },
+  {
+    "name": "Iran",
+    "officialName": "Islamic Republic of Iran",
+    "alpha2": "IR",
+    "alpha3": "IRN"
+  },
+  {
+    "name": "Iraq",
+    "officialName": "Republic of Iraq",
+    "alpha2": "IQ",
+    "alpha3": "IRQ"
+  },
+  {
+    "name": "Ireland",
+    "officialName": "Ireland",
+    "alpha2": "IE",
+    "alpha3": "IRL"
+  },
+  {
+    "name": "Israel",
+    "officialName": "State of Israel",
+    "alpha2": "IL",
+    "alpha3": "ISR"
+  },
+  {
+    "name": "Italy",
+    "officialName": "Italian Republic",
+    "alpha2": "IT",
+    "alpha3": "ITA"
+  },
+  {
+    "name": "Jamaica",
+    "officialName": "Jamaica",
+    "alpha2": "JM",
+    "alpha3": "JAM"
+  },
+  {
+    "name": "Japan",
+    "officialName": "Japan",
+    "alpha2": "JP",
+    "alpha3": "JPN"
+  },
+  {
+    "name": "Jordan",
+    "officialName": "Hashemite Kingdom of Jordan",
+    "alpha2": "JO",
+    "alpha3": "JOR"
+  },
+  {
+    "name": "Kazakhstan",
+    "officialName": "Republic of Kazakhstan",
+    "alpha2": "KZ",
+    "alpha3": "KAZ"
+  },
+  {
+    "name": "Kenya",
+    "officialName": "Republic of Kenya",
+    "alpha2": "KE",
+    "alpha3": "KEN"
+  },
+  {
+    "name": "Kiribati",
+    "officialName": "Independent and Sovereign Republic of Kiribati",
+    "alpha2": "KI",
+    "alpha3": "KIR"
+  },
+  {
+    "name": "Kuwait",
+    "officialName": "State of Kuwait",
+    "alpha2": "KW",
+    "alpha3": "KWT"
+  },
+  {
+    "name": "Kyrgyzstan",
+    "officialName": "Kyrgyz Republic",
+    "alpha2": "KG",
+    "alpha3": "KGZ"
+  },
+  {
+    "name": "Laos",
+    "officialName": "Lao People's Democratic Republic",
+    "alpha2": "LA",
+    "alpha3": "LAO"
+  },
+  {
+    "name": "Latvia",
+    "officialName": "Republic of Latvia",
+    "alpha2": "LV",
+    "alpha3": "LVA"
+  },
+  {
+    "name": "Lebanon",
+    "officialName": "Lebanese Republic",
+    "alpha2": "LB",
+    "alpha3": "LBN"
+  },
+  {
+    "name": "Lesotho",
+    "officialName": "Kingdom of Lesotho",
+    "alpha2": "LS",
+    "alpha3": "LSO"
+  },
+  {
+    "name": "Liberia",
+    "officialName": "Republic of Liberia",
+    "alpha2": "LR",
+    "alpha3": "LBR"
+  },
+  {
+    "name": "Libya",
+    "officialName": "State of Libya",
+    "alpha2": "LY",
+    "alpha3": "LBY"
+  },
+  {
+    "name": "Liechtenstein",
+    "officialName": "Principality of Liechtenstein",
+    "alpha2": "LI",
+    "alpha3": "LIE"
+  },
+  {
+    "name": "Lithuania",
+    "officialName": "Republic of Lithuania",
+    "alpha2": "LT",
+    "alpha3": "LTU"
+  },
+  {
+    "name": "Luxembourg",
+    "officialName": "Grand Duchy of Luxembourg",
+    "alpha2": "LU",
+    "alpha3": "LUX"
+  },
+  {
+    "name": "Madagascar",
+    "officialName": "Republic of Madagascar",
+    "alpha2": "MG",
+    "alpha3": "MDG"
+  },
+  {
+    "name": "Malawi",
+    "officialName": "Republic of Malawi",
+    "alpha2": "MW",
+    "alpha3": "MWI"
+  },
+  {
+    "name": "Malaysia",
+    "officialName": "Malaysia",
+    "alpha2": "MY",
+    "alpha3": "MYS"
+  },
+  {
+    "name": "Maldives",
+    "officialName": "Republic of Maldives",
+    "alpha2": "MV",
+    "alpha3": "MDV"
+  },
+  {
+    "name": "Mali",
+    "officialName": "Republic of Mali",
+    "alpha2": "ML",
+    "alpha3": "MLI"
+  },
+  {
+    "name": "Malta",
+    "officialName": "Republic of Malta",
+    "alpha2": "MT",
+    "alpha3": "MLT"
+  },
+   {
+    "name": "Marshall Islands",
+    "officialName": "Republic of the Marshall Islands",
+    "alpha2": "MH",
+    "alpha3": "MHL"
+  },
+  {
+    "name": "Mauritania",
+    "officialName": "Islamic Republic of Mauritania",
+    "alpha2": "MR",
+    "alpha3": "MRT"
+  },
+  {
+    "name": "Mauritius",
+    "officialName": "Republic of Mauritius",
+    "alpha2": "MU",
+    "alpha3": "MUS"
+  },
+  {
+    "name": "Mexico",
+    "officialName": "United Mexican States",
+    "alpha2": "MX",
+    "alpha3": "MEX"
+  },
+  {
+    "name": "Micronesia",
+    "officialName": "Federated States of Micronesia",
+    "alpha2": "FM",
+    "alpha3": "FSM"
+  },
+  {
+    "name": "Moldova",
+    "officialName": "Republic of Moldova",
+    "alpha2": "MD",
+    "alpha3": "MDA"
+  },
+  {
+    "name": "Monaco",
+    "officialName": "Principality of Monaco",
+    "alpha2": "MC",
+    "alpha3": "MCO"
+  },
+  {
+    "name": "Mongolia",
+    "officialName": "Mongolia",
+    "alpha2": "MN",
+    "alpha3": "MNG"
+  },
+  {
+    "name": "Montenegro",
+    "officialName": "Montenegro",
+    "alpha2": "ME",
+    "alpha3": "MNE"
+  },
+  {
+    "name": "Morocco",
+    "officialName": "Kingdom of Morocco",
+    "alpha2": "MA",
+    "alpha3": "MAR"
+  },
+  {
+    "name": "Mozambique",
+    "officialName": "Republic of Mozambique",
+    "alpha2": "MZ",
+    "alpha3": "MOZ"
+  },
+  {
+    "name": "Myanmar",
+    "officialName": "Republic of the Union of Myanmar",
+    "alpha2": "MM",
+    "alpha3": "MMR"
+  },
+  {
+    "name": "Namibia",
+    "officialName": "Republic of Namibia",
+    "alpha2": "NA",
+    "alpha3": "NAM"
+  },
+  {
+    "name": "Nauru",
+    "officialName": "Republic of Nauru",
+    "alpha2": "NR",
+    "alpha3": "NRU"
+  },
+  {
+    "name": "Nepal",
+    "officialName": "Federal Democratic Republic of Nepal",
+    "alpha2": "NP",
+    "alpha3": "NPL"
+  },
+  {
+    "name": "Netherlands",
+    "officialName": "Kingdom of the Netherlands",
+    "alpha2": "NL",
+    "alpha3": "NLD"
+  },
+  {
+    "name": "New Zealand",
+    "officialName": "New Zealand",
+    "alpha2": "NZ",
+    "alpha3": "NZL"
+  },
+  {
+    "name": "Nicaragua",
+    "officialName": "Republic of Nicaragua",
+    "alpha2": "NI",
+    "alpha3": "NIC"
+  },
+  {
+    "name": "Niger",
+    "officialName": "Republic of the Niger",
+    "alpha2": "NE",
+    "alpha3": "NER"
+  },
+  {
+    "name": "Nigeria",
+    "officialName": "Federal Republic of Nigeria",
+    "alpha2": "NG",
+    "alpha3": "NGA"
+  },
+  {
+    "name": "North Korea",
+    "officialName": "Democratic People's Republic of Korea",
+    "alpha2": "KP",
+    "alpha3": "PRK"
+  },
+  {
+    "name": "North Macedonia",
+    "officialName": "Republic of North Macedonia",
+    "alpha2": "MK",
+    "alpha3": "MKD"
+  },
+  {
+    "name": "Norway",
+    "officialName": "Kingdom of Norway",
+    "alpha2": "NO",
+    "alpha3": "NOR"
+  },
+  {
+    "name": "Oman",
+    "officialName": "Sultanate of Oman",
+    "alpha2": "OM",
+    "alpha3": "OMN"
+  },
+  {
+    "name": "Pakistan",
+    "officialName": "Islamic Republic of Pakistan",
+    "alpha2": "PK",
+    "alpha3": "PAK"
+  },
+  {
+    "name": "Palau",
+    "officialName": "Republic of Palau",
+    "alpha2": "PW",
+    "alpha3": "PLW"
+  },
+  {
+    "name": "Palestine",
+    "officialName": "State of Palestine",
+    "alpha2": "PS",
+    "alpha3": "PSE"
+  },
+  {
+    "name": "Panama",
+    "officialName": "Republic of Panama",
+    "alpha2": "PA",
+    "alpha3": "PAN"
+  },
+  {
+    "name": "Papua New Guinea",
+    "officialName": "Independent State of Papua New Guinea",
+    "alpha2": "PG",
+    "alpha3": "PNG"
+  },
+  {
+    "name": "Paraguay",
+    "officialName": "Republic of Paraguay",
+    "alpha2": "PY",
+    "alpha3": "PRY"
+  },
+  {
+    "name": "Peru",
+    "officialName": "Republic of Peru",
+    "alpha2": "PE",
+    "alpha3": "PER"
+  },
+  {
+    "name": "Philippines",
+    "officialName": "Republic of the Philippines",
+    "alpha2": "PH",
+    "alpha3": "PHL"
+  },
+  {
+    "name": "Poland",
+    "officialName": "Republic of Poland",
+    "alpha2": "PL",
+    "alpha3": "POL"
+  },
+  {
+    "name": "Portugal",
+    "officialName": "Portuguese Republic",
+    "alpha2": "PT",
+    "alpha3": "PRT"
+  },
+  {
+    "name": "Qatar",
+    "officialName": "State of Qatar",
+    "alpha2": "QA",
+    "alpha3": "QAT"
+  },
+  {
+    "name": "Romania",
+    "officialName": "Romania",
+    "alpha2": "RO",
+    "alpha3": "ROU"
+  },
+  {
+    "name": "Russia",
+    "officialName": "Russian Federation",
+    "alpha2": "RU",
+    "alpha3": "RUS"
+  },
+  {
+    "name": "Rwanda",
+    "officialName": "Republic of Rwanda",
+    "alpha2": "RW",
+    "alpha3": "RWA"
+  },
+  {
+    "name": "Saint Kitts and Nevis",
+    "officialName": "Federation of Saint Kitts and Nevis",
+    "alpha2": "KN",
+    "alpha3": "KNA"
+  },
+  {
+    "name": "Saint Lucia",
+    "officialName": "Saint Lucia",
+    "alpha2": "LC",
+    "alpha3": "LCA"
+  },
+   {
+    "name": "Saint Vincent and the Grenadines",
+    "officialName": "Saint Vincent and the Grenadines",
+    "alpha2": "VC",
+    "alpha3": "VCT"
+  },
+  {
+    "name": "Samoa",
+    "officialName": "Independent State of Samoa",
+    "alpha2": "WS",
+    "alpha3": "WSM"
+  },
+  {
+    "name": "San Marino",
+    "officialName": "Republic of San Marino",
+    "alpha2": "SM",
+    "alpha3": "SMR"
+  },
+  {
+    "name": "Sao Tome and Principe",
+    "officialName": "Democratic Republic of Sao Tome and Principe",
+    "alpha2": "ST",
+    "alpha3": "STP"
+  },
+  {
+    "name": "Saudi Arabia",
+    "officialName": "Kingdom of Saudi Arabia",
+    "alpha2": "SA",
+    "alpha3": "SAU"
+  },
+  {
+    "name": "Senegal",
+    "officialName": "Republic of Senegal",
+    "alpha2": "SN",
+    "alpha3": "SEN"
+  },
+  {
+    "name": "Serbia",
+    "officialName": "Republic of Serbia",
+    "alpha2": "RS",
+    "alpha3": "SRB"
+  },
+  {
+    "name": "Seychelles",
+    "officialName": "Republic of Seychelles",
+    "alpha2": "SC",
+    "alpha3": "SYC"
+  },
+  {
+    "name": "Sierra Leone",
+    "officialName": "Republic of Sierra Leone",
+    "alpha2": "SL",
+    "alpha3": "SLE"
+  },
+  {
+    "name": "Singapore",
+    "officialName": "Republic of Singapore",
+    "alpha2": "SG",
+    "alpha3": "SGP"
+  },
+   {
+    "name": "Slovakia",
+    "officialName": "Slovak Republic",
+    "alpha2": "SK",
+    "alpha3": "SVK"
+  },
+  {
+    "name": "Slovenia",
+    "officialName": "Republic of Slovenia",
+    "alpha2": "SI",
+    "alpha3": "SVN"
+  },
+  {
+    "name": "Solomon Islands",
+    "officialName": "Solomon Islands",
+    "alpha2": "SB",
+    "alpha3": "SLB"
+  },
+  {
+    "name": "Somalia",
+    "officialName": "Federal Republic of Somalia",
+    "alpha2": "SO",
+    "alpha3": "SOM"
+  },
+  {
+    "name": "South Africa",
+    "officialName": "Republic of South Africa",
+    "alpha2": "ZA",
+    "alpha3": "ZAF"
+  },
+  {
+    "name": "South Korea",
+    "officialName": "Republic of Korea",
+    "alpha2": "KR",
+    "alpha3": "KOR"
+  },
+  {
+    "name": "South Sudan",
+    "officialName": "Republic of South Sudan",
+    "alpha2": "SS",
+    "alpha3": "SSD"
+  },
+  {
+    "name": "Spain",
+    "officialName": "Kingdom of Spain",
+    "alpha2": "ES",
+    "alpha3": "ESP"
+  },
+  {
+    "name": "Sri Lanka",
+    "officialName": "Democratic Socialist Republic of Sri Lanka",
+    "alpha2": "LK",
+    "alpha3": "LKA"
+  },
+  {
+    "name": "Sudan",
+    "officialName": "Republic of the Sudan",
+    "alpha2": "SD",
+    "alpha3": "SDN"
+  },
+  {
+    "name": "Suriname",
+    "officialName": "Republic of Suriname",
+    "alpha2": "SR",
+    "alpha3": "SUR"
+  },
+  {
+    "name": "Sweden",
+    "officialName": "Kingdom of Sweden",
+    "alpha2": "SE",
+    "alpha3": "SWE"
+  },
+  {
+    "name": "Switzerland",
+    "officialName": "Swiss Confederation",
+    "alpha2": "CH",
+    "alpha3": "CHE"
+  },
+  {
+    "name": "Syria",
+    "officialName": "Syrian Arab Republic",
+    "alpha2": "SY",
+    "alpha3": "SYR"
+  },
+  {
+    "name": "Taiwan",
+    "officialName": "Republic of China (Taiwan)",
+    "alpha2": "TW",
+    "alpha3": "TWN"
+  },
+  {
+    "name": "Tajikistan",
+    "officialName": "Republic of Tajikistan",
+    "alpha2": "TJ",
+    "alpha3": "TJK"
+  },
+  {
+    "name": "Tanzania",
+    "officialName": "United Republic of Tanzania",
+    "alpha2": "TZ",
+    "alpha3": "TZA"
+  },
+  {
+    "name": "Thailand",
+    "officialName": "Kingdom of Thailand",
+    "alpha2": "TH",
+    "alpha3": "THA"
+  },
+  {
+    "name": "Togo",
+    "officialName": "Togolese Republic",
+    "alpha2": "TG",
+    "alpha3": "TGO"
+  },
+  {
+    "name": "Tonga",
+    "officialName": "Kingdom of Tonga",
+    "alpha2": "TO",
+    "alpha3": "TON"
+  },
+  {
+    "name": "Trinidad and Tobago",
+    "officialName": "Republic of Trinidad and Tobago",
+    "alpha2": "TT",
+    "alpha3": "TTO"
+  },
+  {
+    "name": "Tunisia",
+    "officialName": "Republic of Tunisia",
+    "alpha2": "TN",
+    "alpha3": "TUN"
+  },
+  {
+    "name": "Turkey",
+    "officialName": "Republic of Turkey",
+    "alpha2": "TR",
+    "alpha3": "TUR"
+  },
+  {
+    "name": "Turkmenistan",
+    "officialName": "Turkmenistan",
+    "alpha2": "TM",
+    "alpha3": "TKM"
+  },
+  {
+    "name": "Tuvalu",
+    "officialName": "Tuvalu",
+    "alpha2": "TV",
+    "alpha3": "TUV"
+  },
+  {
+    "name": "Uganda",
+    "officialName": "Republic of Uganda",
+    "alpha2": "UG",
+    "alpha3": "UGA"
+  },
+  {
+    "name": "Ukraine",
+    "officialName": "Ukraine",
+    "alpha2": "UA",
+    "alpha3": "UKR"
+  },
+  {
+    "name": "United Arab Emirates",
+    "officialName": "United Arab Emirates",
+    "alpha2": "AE",
+    "alpha3": "ARE"
+  },
+  {
+    "name": "United Kingdom",
+    "officialName": "United Kingdom of Great Britain and Northern Ireland",
+    "alpha2": "GB",
+    "alpha3": "GBR"
+  },
+  {
+    "name": "United States",
+    "officialName": "United States of America",
+    "alpha2": "US",
+    "alpha3": "USA"
+  },
+  {
+    "name": "Uruguay",
+    "officialName": "Oriental Republic of Uruguay",
+    "alpha2": "UY",
+    "alpha3": "URY"
+  },
+  {
+    "name": "Uzbekistan",
+    "officialName": "Republic of Uzbekistan",
+    "alpha2": "UZ",
+    "alpha3": "UZB"
+  },
+  {
+    "name": "Vanuatu",
+    "officialName": "Republic of Vanuatu",
+    "alpha2": "VU",
+    "alpha3": "VUT"
+  },
+  {
+    "name": "Vatican City",
+    "officialName": "Vatican City State",
+    "alpha2": "VA",
+    "alpha3": "VAT"
+  },
+  {
+    "name": "Venezuela",
+    "officialName": "Bolivarian Republic of Venezuela",
+    "alpha2": "VE",
+    "alpha3": "VEN"
+  },
+  {
+    "name": "Vietnam",
+    "officialName": "Socialist Republic of Vietnam",
+    "alpha2": "VN",
+    "alpha3": "VNM"
+  },
+  {
+    "name": "Yemen",
+    "officialName": "Republic of Yemen",
+    "alpha2": "YE",
+    "alpha3": "YEM"
+  },
+  {
+    "name": "Zambia",
+    "officialName": "Republic of Zambia",
+    "alpha2": "ZM",
+    "alpha3": "ZMB"
+  },
+  {
+    "name": "Zimbabwe",
+    "officialName": "Republic of Zimbabwe",
+    "alpha2": "ZW",
+    "alpha3": "ZWE"
+  }
+]
