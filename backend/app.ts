@@ -7,6 +7,7 @@ import countryRouter from './src/Country/countryRoute.js'
 import schoolRouter from './src/School/schoolRoute.js';
 import studentRouter from './src/Student/studentRoute.js'
 import individualRouter from './src/Individual/individualRoute.js'
+import parentRouter from './src/Parent/parentRoute.js'
 import cookieParser from 'cookie-parser';
 
 app.use(express.json({limit: "16kb"}));
@@ -19,6 +20,6 @@ app.use("/api/v1/country", countryRouter);
 app.use("/api/v1/school", schoolRouter);
 app.use("/api/v1/student", studentRouter)
 app.use("/api/v1/individual", individualRouter)
-
+app.use("/api/v1", parentRouter)
 app.use( errorHandler )
 export { app };

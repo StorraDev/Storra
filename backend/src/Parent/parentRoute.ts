@@ -13,12 +13,11 @@ import { parentRegisterValidator, childRegisterValidator } from '../middlewares/
 
 const parentRouter = Router();
 
-// 🧑‍🍼 Parent Account Routes
+
 parentRouter.post('/register', parentRegisterValidator, registerParent);
 parentRouter.post('/login', loginParent);
 parentRouter.post('/logout', verifyJWT, verifyParentJWT, logoutParent);
 
-// 👶 Children Sub-Account Routes
 parentRouter.post('/children', verifyJWT, verifyParentJWT, childRegisterValidator, registerChild);
 parentRouter.get('/children', verifyJWT, verifyParentJWT, getParentChildren);
 parentRouter.put('/children/:childId', verifyJWT, verifyParentJWT, updateChild);
