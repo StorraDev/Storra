@@ -11,7 +11,7 @@ import { getAge } from '../utils/getAge';
 
 // Register Parent Service (Parent doesn't get a registration number)
 const registerParentService = async (data: IParentRegistration) => {
-    const { firstName, lastName, email, password, phoneNumber, countryName, level } = data;
+    const { firstName, lastName, email, password, phoneNumber, countryName } = data;
 
     try {
         // 1. Validate and get country
@@ -27,13 +27,6 @@ const registerParentService = async (data: IParentRegistration) => {
             throw new Error('Email already registered');
         }
 
-        // 3. Validate levels
-        const allowedLevels = ['primary', 'secondary', 'tertiary'];
-        const levelToUse = Array.isArray(level) ? level[0] : level;
-
-        if (!allowedLevels.includes(levelToUse)) {
-            throw new Error('Level must be primary, secondary, or tertiary');
-        }
 
         // 4. Create parent (NO registration number for parent)
         const newParent = await Parent.create({
@@ -43,7 +36,6 @@ const registerParentService = async (data: IParentRegistration) => {
             password: password.trim(),
             phoneNumber: phoneNumber?.trim(),
             countryId: country._id,
-            level: levelToUse,
             children: [], // Empty array initially
             userType: 'parent',
             isVerified: false,

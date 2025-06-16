@@ -37,7 +37,6 @@ export interface IParentRegistration {
   password: string;
   phoneNumber?: string;
   countryName: string;
-  level: string;
 }
 
 export interface IParentDocument {

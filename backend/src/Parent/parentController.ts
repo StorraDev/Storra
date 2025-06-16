@@ -18,7 +18,7 @@ const registerParent = asyncHandler(async (req: Request, res: Response) => {
     const { firstName, lastName, email, password, phoneNumber, countryName, level } = req.body;
 
     // Validation
-    if (!firstName || !lastName || !email || !password || !countryName || !level) {
+    if (!firstName || !lastName || !email || !password || !countryName) {
         throw new ApiError({
             statusCode: 400,
             message: 'All required fields must be provided'
@@ -49,8 +49,7 @@ const registerParent = asyncHandler(async (req: Request, res: Response) => {
             email,
             password,
             phoneNumber,
-            countryName,
-            level
+            countryName
         });
 
         // Generate tokens for parent
