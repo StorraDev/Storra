@@ -1,10 +1,11 @@
 import { Country } from "../Country/countryModel";
 import { School }from "../School/schoolModel";
 import { Student } from "../Student/studentModel";
+import { Parent } from "../Parent/parentModel"
 import { Individual } from "../Individual/indvidualModel"
 import { ApiError } from "./ApiError";
 
-type UserTypes = "country" | "student" | "school" | "individual";
+type UserTypes = "country" | "student" | "school" | "individual" | "parent";
 
 interface Tokens {
   accessToken: string;
@@ -29,6 +30,9 @@ export const generateAccessAndRefreshToken = async (
       break;
     case "individual":
       user = await Individual.findById(userId);
+      break;
+    case "parent":
+      user = await Parent.findById(userId);
       break;
     default:
       throw new ApiError({ statusCode: 400, message: "Invalid user type" });

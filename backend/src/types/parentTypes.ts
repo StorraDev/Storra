@@ -2,8 +2,7 @@ import mongoose, { Document } from 'mongoose';
 
 export interface IChildRegistration {
   firstName: string;
-    lastName: string;
-    fullName: string; // Virtual field
+  lastName: string;
   dateOfBirth: Date;
   gender: 'male' | 'female' | 'other';
   avatarUrl?: string;
@@ -12,9 +11,11 @@ export interface IChildRegistration {
 }
 
 export interface IChildDocument {
- firstName: string;
-    lastName: string;
-    fullName: string; // Virtual field
+  _id?: any;
+  firstName: string;
+  lastName: string;
+  fullName: string; // Virtual field
+  age: number; // Virtual field
   dateOfBirth: Date;
   gender: 'male' | 'female' | 'other';
   level: string;
@@ -31,8 +32,7 @@ export interface IChildDocument {
 
 export interface IParentRegistration {
   firstName: string;
-    lastName: string;
-    fullName: string; // Virtual field
+  lastName: string;
   email: string;
   password: string;
   phoneNumber?: string;

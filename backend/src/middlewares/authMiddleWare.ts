@@ -2,6 +2,7 @@ import { Country } from '../Country/countryModel';
 import { School } from '../School/schoolModel';
 import { Student } from '../Student/studentModel';
 import { Individual } from '../Individual/indvidualModel'
+import { Parent } from '../Parent/parentModel';
 import { ApiError } from '../utils/ApiError';
 import { asyncHandler } from '../utils/AsyncHandler';
 import jwt from 'jsonwebtoken';
@@ -22,7 +23,7 @@ declare global {
 }
 
 // Type-safe user type
-type UserType = 'country' | 'school' | 'student' | 'individual';
+type UserType = 'country' | 'school' | 'student' | 'individual' | 'parent';
 
 // Interface for JWT payload
 interface JWTPayload extends jwt.JwtPayload {
@@ -65,7 +66,8 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
       country: Country,
       school: School,
       student: Student,
-      individual: Individual
+      individual: Individual,
+      parent: Parent
     } as const;
 
     // Only allow userType values that exist in modelMap
@@ -193,6 +195,18 @@ export const verifyIndividualJWT: RequestHandler = asyncHandler(async (req, res,
       throw new ApiError({ 
         statusCode: 403, 
         message: 'Access restricted to individuals only' 
+      });
+    }
+    next();
+  });
+});
+
+export const verifyParentJWT: RequestHandler = asyncHandler(async (req, res, next) => {
+  await verifyJWT(req, res, () => {
+    if (req.user?.userType !== 'parent') {
+      throw new ApiError({ 
+        statusCode: 403, 
+        message: 'Access restricted to parents only' 
       });
     }
     next();
