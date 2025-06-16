@@ -108,8 +108,6 @@ const childRegisterValidator = async (req: Request, res: Response, next: NextFun
   const schema = Joi.object({
     firstName: Joi.string().min(2).max(50).required(),
     lastName: Joi.string().min(2).max(50).required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().min(6).required(),
     dateOfBirth: Joi.date().less('now').required().messages({
     'date.base': 'Date of birth must be a valid date',
     'date.less': 'Date of birth must be in the past',
