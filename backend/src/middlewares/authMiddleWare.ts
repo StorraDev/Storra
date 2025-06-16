@@ -1,6 +1,7 @@
 import { Country } from '../Country/countryModel';
 import { School } from '../School/schoolModel';
 import { Student } from '../Student/studentModel';
+import { Individual } from '../Individual/indvidualModel'
 import { ApiError } from '../utils/ApiError';
 import { asyncHandler } from '../utils/AsyncHandler';
 import jwt from 'jsonwebtoken';
@@ -64,7 +65,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
       country: Country,
       school: School,
       student: Student,
-      // individual: Individual
+      individual: Individual
     } as const;
 
     // Only allow userType values that exist in modelMap

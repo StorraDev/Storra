@@ -1,9 +1,7 @@
 import { Country } from "../Country/countryModel";
-//import { Student } from "../Student/studentModel";
 import { School }from "../School/schoolModel";
-
 import { Student } from "../Student/studentModel";
-// import Individual from "../models/Individual";
+import { Individual } from "../Individual/indvidualModel"
 import { ApiError } from "./ApiError";
 
 type UserTypes = "country" | "student" | "school" | "individual";
@@ -29,9 +27,9 @@ export const generateAccessAndRefreshToken = async (
     case "school":
       user = await School.findById(userId);
       break;
-    // case "individual":
-    //   user = await Individual.findById(userId);
-    //   break;
+    case "individual":
+      user = await Individual.findById(userId);
+      break;
     default:
       throw new ApiError({ statusCode: 400, message: "Invalid user type" });
   }
