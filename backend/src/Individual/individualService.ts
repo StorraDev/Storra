@@ -71,7 +71,7 @@ const registerIndividualService = async (data: IIndividualRegistration) => {
             registrationNumber,
             address: address.trim(),
             phone: phone.trim(),
-            userType: 'student',
+            userType: 'individual',
             isVerified: false
         });
 

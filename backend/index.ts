@@ -5,7 +5,7 @@ import { connectRedis} from './src/config/redis/redis';
 import { initCountryCounter } from './src/config/redis/redisCountryCounter';
 import { initSchoolCounter } from './src/config/redis/redisSchoolCounter';
 import { initStudentCounter } from './src/config/redis/redisStudentCounter';
-import { initIndividualCounter } from './src/config/redis/redisIndividualCounter'
+import { initIndividualCounter, checkCounterHealth } from './src/config/redis/redisIndividualCounter'
 import { logger } from "./src/utils/logger.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -35,6 +35,8 @@ const startup = async () => {
     await initStudentCounter();
     logger.info('✅ Student counter initialized');
 
+    await checkCounterHealth();
+    
     await initIndividualCounter();
     logger.info('✅ Individual counter initialized')
 
