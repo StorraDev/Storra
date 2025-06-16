@@ -16,11 +16,11 @@ const parentRouter = Router();
 
 parentRouter.post('/registerparent', parentRegisterValidator, registerParent);
 parentRouter.post('/loginparent', loginParent);
-parentRouter.post('/logout', verifyJWT, verifyParentJWT, logoutParent);
+parentRouter.post('/logoutparent', verifyJWT, verifyParentJWT, logoutParent);
 
-parentRouter.post('/children', verifyJWT, verifyParentJWT, childRegisterValidator, registerChild);
-parentRouter.get('/children', verifyJWT, verifyParentJWT, getParentChildren);
-parentRouter.put('/children/:childId', verifyJWT, verifyParentJWT, updateChild);
-parentRouter.delete('/children/:childId', verifyJWT, verifyParentJWT, deleteChild);
+parentRouter.post('/registerchild', verifyJWT, verifyParentJWT, childRegisterValidator, registerChild);
+parentRouter.get('/parentchildren', verifyJWT, verifyParentJWT, getParentChildren);
+parentRouter.put('/updatechildren/:childId', verifyJWT, verifyParentJWT, updateChild);
+parentRouter.delete('/deletechildren/:childId', verifyJWT, verifyParentJWT, deleteChild);
 
 export default parentRouter;

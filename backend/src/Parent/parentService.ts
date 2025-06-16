@@ -87,7 +87,7 @@ const registerChildService = async (parentId: string, childData: IChildRegistrat
             throw new Error('Country not found');
         }
 
-        if (parent.countryId.toString() !== (country._id as string).toString()) {
+        if (parent.countryId._id.toString() !== (country._id as string).toString()) {
             throw new Error('Child must be registered in the same country as parent');
         }
 

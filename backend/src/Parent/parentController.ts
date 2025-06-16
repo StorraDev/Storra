@@ -123,7 +123,7 @@ const registerChild = asyncHandler(async (req: Request, res: Response) => {
             dateOfBirth,
             gender,
             level,
-            countryName
+            countryName,
         });
 
         logger.info(`✅ Child registration successful: ${result.child?.firstName} under parent ${req.user._id}`);

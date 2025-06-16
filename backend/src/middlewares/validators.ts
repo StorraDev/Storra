@@ -113,7 +113,6 @@ const childRegisterValidator = async (req: Request, res: Response, next: NextFun
     'date.less': 'Date of birth must be in the past',
     'any.required': 'Date of birth is required'
   }),
-    phone: Joi.string().pattern(/^[0-9\s\-\+]+$/).required(),
     countryName: Joi.string().min(2).max(50).required(),
     level: Joi.string().valid('primary', 'secondary', 'tertiary').required(),
     gender: Joi.string().valid  ('male', 'female', 'other')

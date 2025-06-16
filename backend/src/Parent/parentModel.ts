@@ -24,6 +24,13 @@ const childSchema = new Schema<IChildDocument>({
         enum: ['primary', 'secondary', 'tertiary'],
         required: [true, 'Child level is required'],
         index: true },
+    registrationNumber: {
+        type: String,
+        required: false,
+        unique: true,
+        sparse: true,
+        index: true
+    },
   countryId: {
         type: Schema.Types.ObjectId,
         ref: 'Country',
@@ -87,12 +94,6 @@ const parentSchema = new Schema<IParent>({
   refreshToken: { type: String }
 }, { timestamps: true });
 
-// 🔐 Hash password before save
-parentSchema.pre<IParent>('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
-});
 
 parentSchema.virtual('fullName').get(function() {
     return `${this.firstName} ${this.lastName}`;
