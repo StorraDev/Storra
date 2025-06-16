@@ -14,7 +14,7 @@ individualRouter.post('/refreshaccesstoken', verifyJWT, verifyIndividualJWT, ref
 individualRouter.put('/updatepassword', verifyJWT, verifyIndividualJWT, updatePassword);
 individualRouter.put('/updateindividualprofile', verifyJWT, verifyIndividualJWT, updateIndividualProfile);
 individualRouter.get('/profile', verifyJWT, verifyIndividualJWT, getIndividualProfile);
-individualRouter.get('/info/:name', verifyJWT, verifyIndividualJWT, checkIndividualInfo);
+individualRouter.get('/info', verifyJWT, verifyIndividualJWT, checkIndividualInfo);
 
 
 export default individualRouter;

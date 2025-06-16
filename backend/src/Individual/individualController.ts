@@ -304,7 +304,7 @@ export const refreshAccessToken = asyncHandler(async (req: Request, res: Respons
 })
 
 export const checkIndividualInfo = asyncHandler(async (req: Request, res: Response) => {
-  const { registrationNumber } = req.params;
+  const { registrationNumber } = req.query;
 
   if (!registrationNumber) {
     throw new ApiError({
@@ -314,7 +314,19 @@ export const checkIndividualInfo = asyncHandler(async (req: Request, res: Respon
   }
 
   try {
-    const individualInfo = await getIndividualInfo(registrationNumber.trim());
+    let regNum: string | undefined;
+    if (typeof registrationNumber === 'string') {
+      regNum = registrationNumber.trim();
+    } else if (Array.isArray(registrationNumber) && typeof registrationNumber[0] === 'string') {
+      regNum = registrationNumber[0].trim();
+    }
+    if (!regNum) {
+      throw new ApiError({
+        statusCode: 400,
+        message: "Invalid registration number"
+      });
+    }
+    const individualInfo = await getIndividualInfo(regNum);
     res.status(200).json(new ApiResponse(
       200, 
       "individual information retrieved successfully", 
