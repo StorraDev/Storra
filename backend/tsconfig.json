@@ -1,16 +1,17 @@
-{   "extends": "@tsconfig/node18/tsconfig.json",
-    "compilerOptions": {
-      "outDir": "dist",
-      "resolveJsonModule": true,
-      "noEmitOnError": false,
-      "checkJs": false,
-      "rootDir": "src",
-      "strict": true,
-      "sourceMap": true,
-      "esModuleInterop": true,  
-      "allowSyntheticDefaultImports": true,
-      "forceConsistentCasingInFileNames": true
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules"]
-  }
+{
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "noEmitOnError": false,
+    "checkJs": false,
+    "rootDir": "src",
+    "strict": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
