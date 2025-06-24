@@ -18,6 +18,69 @@ import { generateAccessAndRefreshToken } from '../utils/generateTokens'; // Adju
 import { sendInvitationEmail } from '../utils/generateInvitationEmails.js'; // You'll need to create this
 
 export class AdminService {
+
+  // Register new admin
+  static async registerAdmin(adminData: IAdminRegistration) {
+    const { firstName, lastName, email, password, phone, adminLevel, countryId } = adminData;
+
+    try {
+      // Check if admin already exists
+      const existingAdmin = await Admin.findOne({ email });
+      if (existingAdmin) {
+        throw new Error('Admin with this email already exists');
+      }
+
+      // Validate country for non-super admins
+      if (adminLevel !== AdminLevel.SUPER_ADMIN) {
+        if (!countryId) {
+          throw new Error('Country is required for Main and Minor admins');
+        }
+        
+        const country = await Country.findById(countryId);
+        if (!country) {
+          throw new Error('Invalid country selected');
+        }
+      }
+
+      // Create new admin
+      const admin = new Admin({
+        firstName,
+        lastName,
+        email,
+        password,
+        phone,
+        adminLevel,
+        countryId: countryId || undefined,
+        permissions: ADMIN_LEVEL_PERMISSIONS[adminLevel],
+      });
+
+      await admin.save();
+
+      // Generate JWT token
+      const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+        admin._id.toString(),
+        "admin"
+      );
+
+      return {
+        message: 'Admin registered successfully',
+        admin: {
+          id: admin._id,
+          firstName: admin.firstName,
+          lastName: admin.lastName,
+          email: admin.email,
+          adminLevel: admin.adminLevel,
+          countryId: admin.countryId,
+        },
+        accessToken,
+        refreshToken,
+      };
+
+    } catch (error) {
+      throw error;
+    }
+  }
+  
   
   // Create invitation for new admin
   static async createInvitation(invitationData: ICreateInvitation, createdBy: string) {

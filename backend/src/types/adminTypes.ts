@@ -92,6 +92,7 @@ export interface IAdminRegistration {
   phone?: string;
   adminLevel: AdminLevel;
   countryId?: string;
+  password?: string;
 }
 
 export interface IAdminLogin {

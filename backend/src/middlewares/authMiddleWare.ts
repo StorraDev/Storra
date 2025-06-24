@@ -3,6 +3,7 @@ import { School } from '../School/schoolModel';
 import { Student } from '../Student/studentModel';
 import { Individual } from '../Individual/indvidualModel'
 import { Parent } from '../Parent/parentModel';
+import { Admin } from '../Admin/adminModel';
 import { ApiError } from '../utils/ApiError';
 import { asyncHandler } from '../utils/AsyncHandler';
 import jwt from 'jsonwebtoken';
@@ -23,7 +24,7 @@ declare global {
 }
 
 // Type-safe user type
-type UserType = 'country' | 'school' | 'student' | 'individual' | 'parent';
+type UserType = 'country' | 'school' | 'student' | 'individual' | 'parent' | 'admin';
 
 // Interface for JWT payload
 interface JWTPayload extends jwt.JwtPayload {
@@ -67,7 +68,8 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
       school: School,
       student: Student,
       individual: Individual,
-      parent: Parent
+      parent: Parent,
+      admin: Admin
     } as const;
 
     // Only allow userType values that exist in modelMap
@@ -212,6 +214,20 @@ export const verifyParentJWT: RequestHandler = asyncHandler(async (req, res, nex
     next();
   });
 });
+
+export const verifyAdminJWT: RequestHandler = asyncHandler(async (req, res, next) => {
+  await verifyJWT(req, res, () => {
+    if (req.user?.userType !== 'admin') {
+      throw new ApiError({
+        statusCode: 403,
+        message: 'Access restricted to admins only'
+      });
+    }
+    next();
+  });
+});
+
+
 
 // Helper function to check multiple user types
 export const verifyUserTypes = (allowedTypes: UserType[]): RequestHandler => {

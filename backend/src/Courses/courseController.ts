@@ -7,14 +7,7 @@ import { uploadFileToS3 } from './courseService';
 import { logger } from '../utils/logger';
 import fs from 'fs';
 
-interface AuthenticatedRequest extends Request {
-  user?: {
-    _id: string;
-    [key: string]: any;
-  };
-}
-
-export const createCourse = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+export const createCourse = asyncHandler(async (req: Request, res: Response) => {
   try {
     const { title, description, level } = req.body;
     const files = req.files as Express.Multer.File[];
@@ -86,7 +79,7 @@ export const createCourse = asyncHandler(async (req: AuthenticatedRequest, res: 
       )
     );
   } catch (error) {
-    logger.error('Error creating course:', error);
+    logger.error('Error creating course:', error as Error);
     
     // Clean up any uploaded files on error
     const files = req.files as Express.Multer.File[];

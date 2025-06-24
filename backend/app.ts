@@ -8,6 +8,8 @@ import schoolRouter from './src/School/schoolRoute.js';
 import studentRouter from './src/Student/studentRoute.js'
 import individualRouter from './src/Individual/individualRoute.js'
 import parentRouter from './src/Parent/parentRoute.js'
+import couresRouter from './src/Courses/courseRoute.js';
+//import adminRouter from './src/Admin/adminRoute.js';
 import cookieParser from 'cookie-parser';
 
 app.use(express.json({limit: "16kb"}));
@@ -21,5 +23,7 @@ app.use("/api/v1/school", schoolRouter);
 app.use("/api/v1/student", studentRouter)
 app.use("/api/v1/individual", individualRouter)
 app.use("/api/v1/parent", parentRouter)
+app.use("/api/v1/courses", couresRouter);
+//app.use("/api/v1/admin", adminRouter);
 app.use( errorHandler )
 export { app };

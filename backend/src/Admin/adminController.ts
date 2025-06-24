@@ -5,17 +5,56 @@ import { ApiResponse } from '../utils/ApiResponse';
 import { asyncHandler } from '../utils/AsyncHandler';
 import { logger } from '../utils/logger';
 
-interface AuthenticatedRequest extends Request {
-  admin?: {
-    id: string;
-    adminLevel: string;
-    countryId?: string;
-    permissions: string[];
-  };
-}
+
 
 export class AdminController {
-  static createInvitation = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+
+  static createAdmin = asyncHandler(async (req: Request, res: Response) => {
+    const { firstName, lastName, email, password, adminLevel, countryId } = req.body;
+
+    if (!firstName || !lastName || !email || !password || !adminLevel) {
+      throw new ApiError({
+        statusCode: 400,
+        message: 'All fields are required'
+      });
+    }
+
+    if (!req.user?.id) {
+      throw new ApiError({
+        statusCode: 401,
+        message: 'Admin authentication required'
+      });
+    }
+
+    try {
+      const result = await AdminService.createAdmin(
+        { firstName, lastName, email, password, adminLevel, countryId },
+        req.user.id
+      );
+
+      logger.info(`✅ Admin created by ${req.user.id}: ${email}`);
+
+      return res.status(201).json(
+        new ApiResponse(201, 'Admin created successfully', {
+          admin: result.admin,
+          accessToken: result.accessToken,
+          refreshToken: result.refreshToken,
+        })
+      );
+    } catch (error) {
+      logger.error('❌ Failed to create admin:', {
+        error: (error as Error).message,
+        adminId: req.user?.id,
+        email
+      });
+
+      throw new ApiError({
+        statusCode: 400,
+        message: (error as Error).message
+      });
+    }
+  });
+  static createInvitation = asyncHandler(async (req: Request, res: Response) => {
     const { email, adminLevel, countryId } = req.body;
 
     if (!email || !adminLevel) {
@@ -25,7 +64,7 @@ export class AdminController {
       });
     }
 
-    if (!req.admin?.id) {
+    if (!req.user?.id) {
       throw new ApiError({
         statusCode: 401,
         message: 'Admin authentication required'
@@ -35,10 +74,10 @@ export class AdminController {
     try {
       const result = await AdminService.createInvitation(
         { email, adminLevel, countryId },
-        req.admin.id
+        req.user.id
       );
 
-      logger.info(`✅ Admin invitation created by ${req.admin.id} for ${email}`);
+      logger.info(`✅ Admin invitation created by ${req.user.id} for ${email}`);
 
       return res.status(201).json(
         new ApiResponse(201, 'Invitation created successfully', {
@@ -49,7 +88,7 @@ export class AdminController {
     } catch (error) {
       logger.error('❌ Failed to create admin invitation:', {
         error: (error as Error).message,
-        adminId: req.admin?.id,
+        adminId: req.user?.id,
         email
       });
 
@@ -136,8 +175,8 @@ export class AdminController {
     }
   });
 
-  static getAllAdmins = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    if (!req.admin?.id) {
+  static getAllAdmins = asyncHandler(async (req: Request, res: Response) => {
+    if (!req.user?.id) {
       throw new ApiError({
         statusCode: 401,
         message: 'Admin authentication required'
@@ -148,11 +187,11 @@ export class AdminController {
 
     try {
       const admins = await AdminService.getAllAdmins(
-        req.admin.id,
+        req.user.id,
         country as string
       );
 
-      logger.info(`✅ Admins list retrieved by ${req.admin.id}`);
+      logger.info(`✅ Admins list retrieved by ${req.user.id}`);
 
       return res.status(200).json(
         new ApiResponse(200, 'Admins retrieved successfully', {
@@ -163,7 +202,7 @@ export class AdminController {
     } catch (error) {
       logger.error('❌ Failed to retrieve admins:', {
         error: (error as Error).message,
-        adminId: req.admin.id
+        adminId: req.user.id
       });
 
       throw new ApiError({
@@ -173,11 +212,11 @@ export class AdminController {
     }
   });
 
-  static updateAdmin = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+  static updateAdmin = asyncHandler(async (req: Request, res: Response) => {
     const { adminId } = req.params;
     const updateData = req.body;
 
-    if (!req.admin?.id) {
+    if (!req.user?.id) {
       throw new ApiError({
         statusCode: 401,
         message: 'Admin authentication required'
@@ -188,10 +227,10 @@ export class AdminController {
       const result = await AdminService.updateAdmin(
         adminId,
         updateData,
-        req.admin.id
+        req.user.id
       );
 
-      logger.info(`✅ Admin updated: ${adminId} by ${req.admin.id}`);
+      logger.info(`✅ Admin updated: ${adminId} by ${req.user.id}`);
 
       return res.status(200).json(
         new ApiResponse(200, result.message, {
@@ -202,7 +241,7 @@ export class AdminController {
       logger.error('❌ Failed to update admin:', {
         error: (error as Error).message,
         adminId,
-        updater: req.admin.id
+        updater: req.user.id
       });
 
       throw new ApiError({
@@ -212,8 +251,8 @@ export class AdminController {
     }
   });
 
-  static getPendingInvitations = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    if (!req.admin?.id) {
+  static getPendingInvitations = asyncHandler(async (req: Request, res: Response) => {
+    if (!req.user?.id) {
       throw new ApiError({
         statusCode: 401,
         message: 'Admin authentication required'
@@ -221,9 +260,9 @@ export class AdminController {
     }
 
     try {
-      const invitations = await AdminService.getPendingInvitations(req.admin.id);
+      const invitations = await AdminService.getPendingInvitations(req.user.id);
 
-      logger.info(`✅ Pending invitations retrieved by ${req.admin.id}`);
+      logger.info(`✅ Pending invitations retrieved by ${req.user.id}`);
 
       return res.status(200).json(
         new ApiResponse(200, 'Pending invitations retrieved successfully', {
@@ -234,7 +273,7 @@ export class AdminController {
     } catch (error) {
       logger.error('❌ Failed to retrieve pending invitations:', {
         error: (error as Error).message,
-        adminId: req.admin.id
+        adminId: req.user.id
       });
 
       throw new ApiError({
